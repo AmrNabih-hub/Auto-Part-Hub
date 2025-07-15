@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Pro Auto Parts & Tires</title>
+    <meta name="description" content="Learn about Pro Auto Parts - your trusted automotive partner with over 20 years of experience in providing quality parts and exceptional service.">
+    <meta name="keywords" content="about us, auto parts company, automotive service, car parts history">
+    <meta name="author" content="Pro Auto Parts">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="About Us - Pro Auto Parts">
+    <meta property="og:description" content="Your trusted automotive partner with over 20 years of experience">
+    <meta property="og:type" content="website">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔧</text></svg>">
+    
+    <!-- Stylesheets -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="navbar navbar-expand-lg sticky-top" role="banner">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html" aria-label="Pro Auto Parts Home">
+                <i class="bi bi-gear-wide-connected" aria-hidden="true"></i>
+                <span>Pro Auto Parts</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto" role="menubar">
+                    <li class="nav-item" role="none">
+                        <a class="nav-link" href="index.html" role="menuitem">Home</a>
+                    </li>
+                    <li class="nav-item dropdown" role="none">
+                        <a class="nav-link dropdown-toggle" href="products.html" role="menuitem">
+                            <i class="bi bi-grid me-1"></i>Products
+                        </a>
+                    </li>
+                    <li class="nav-item" role="none">
+                        <a class="nav-link active" href="about.html" role="menuitem">
+                            <i class="bi bi-info-circle me-1"></i>About Us
+                        </a>
+                    </li>
+                    <li class="nav-item" role="none">
+                        <a class="nav-link" href="contact.html" role="menuitem">
+                            <i class="bi bi-envelope me-1"></i>Contact Us
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="d-flex align-items-center gap-3">
+                    <form class="d-flex" role="search">
+                        <div class="position-relative">
+                            <input class="form-control" type="search" placeholder="Search parts, brands, or vehicles..." aria-label="Search parts" id="search-bar">
+                        </div>
+                    </form>
+                    
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="theme-switcher" aria-label="Toggle dark mode">
+                        <label class="form-check-label" for="theme-switcher">
+                            <i class="bi bi-moon-stars-fill" aria-hidden="true"></i>
+                        </label>
+                    </div>
+                    
+                    <a href="#" class="nav-link cart-icon-wrapper" data-bs-toggle="modal" data-bs-target="#mini-cart-modal" aria-label="View shopping cart">
+                        <i class="bi bi-cart-fill fs-4" aria-hidden="true"></i>
+                        <span class="cart-quantity-indicator" id="cart-quantity" aria-live="polite">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mt-5 flex-grow-1" role="main">
+        <!-- Page Header -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">About Us</li>
+                    </ol>
+                </nav>
+                <h1 class="display-4 fw-bold mb-4">About Pro Auto Parts</h1>
+                <p class="lead text-muted">Your trusted automotive partner since 2003</p>
+            </div>
+        </div>
+
+        <!-- Company Story -->
+        <section class="mb-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4">
+                    <img src="https://picsum.photos/600/400?random=about" alt="Pro Auto Parts Store" class="img-fluid rounded shadow">
+                </div>
+                <div class="col-lg-6">
+                    <h2 class="section-title">Our Story</h2>
+                    <p class="lead mb-4">Founded in 2003, Pro Auto Parts began as a small family-owned shop with a simple mission: to provide automotive enthusiasts and professionals with the highest quality parts and exceptional service.</p>
+                    <p>What started as a modest storefront has grown into one of the most trusted names in automotive parts distribution. Our commitment to quality, customer service, and technical expertise has remained unchanged throughout our journey.</p>
+                    <p>Today, we serve customers nationwide with a comprehensive catalog of over 10,000 parts from the world's most trusted manufacturers.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mission & Values -->
+        <section class="mb-5">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="card h-100 text-center">
+                        <div class="card-body">
+                            <i class="bi bi-shield-check display-1 text-primary mb-3"></i>
+                            <h4 class="card-title">Quality Assurance</h4>
+                            <p class="card-text">Every part we sell meets or exceeds OEM specifications. We partner only with manufacturers who share our commitment to excellence.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="card h-100 text-center">
+                        <div class="card-body">
+                            <i class="bi bi-people display-1 text-primary mb-3"></i>
+                            <h4 class="card-title">Expert Support</h4>
+                            <p class="card-text">Our team of certified technicians and automotive experts is here to help you find the right parts for your specific needs.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="card h-100 text-center">
+                        <div class="card-body">
+                            <i class="bi bi-truck display-1 text-primary mb-3"></i>
+                            <h4 class="card-title">Fast Delivery</h4>
+                            <p class="card-text">We understand that time is crucial. That's why we offer same-day shipping on most orders and expedited delivery options.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="mb-5">
+            <h2 class="section-title text-center mb-5">Meet Our Team</h2>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card text-center team-card">
+                        <div class="card-body">
+                            <img src="https://picsum.photos/150/150?random=team1" alt="John Smith" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
+                            <h5 class="card-title">John Smith</h5>
+                            <p class="text-muted">Founder & CEO</p>
+                            <p class="card-text small">20+ years in automotive industry. Passionate about quality and customer satisfaction.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card text-center team-card">
+                        <div class="card-body">
+                            <img src="https://picsum.photos/150/150?random=team2" alt="Sarah Johnson" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
+                            <h5 class="card-title">Sarah Johnson</h5>
+                            <p class="text-muted">Technical Director</p>
+                            <p class="card-text small">Certified master technician with expertise in European and Asian vehicles.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card text-center team-card">
+                        <div class="card-body">
+                            <img src="https://picsum.photos/150/150?random=team3" alt="Mike Davis" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
+                            <h5 class="card-title">Mike Davis</h5>
+                            <p class="text-muted">Customer Service Manager</p>
+                            <p class="card-text small">Dedicated to ensuring every customer receives personalized attention and support.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card text-center team-card">
+                        <div class="card-body">
+                            <img src="https://picsum.photos/150/150?random=team4" alt="Lisa Chen" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
+                            <h5 class="card-title">Lisa Chen</h5>
+                            <p class="text-muted">Operations Manager</p>
+                            <p class="card-text small">Ensures smooth operations and maintains our high standards for quality control.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Statistics -->
+        <section class="mb-5">
+            <div class="row text-center">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="display-4 fw-bold text-primary">20+</h3>
+                            <p class="text-muted">Years of Experience</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="display-4 fw-bold text-primary">10K+</h3>
+                            <p class="text-muted">Parts Available</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="display-4 fw-bold text-primary">50K+</h3>
+                            <p class="text-muted">Happy Customers</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="display-4 fw-bold text-primary">24/7</h3>
+                            <p class="text-muted">Customer Support</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="text-center mb-5">
+            <div class="card bg-primary text-white">
+                <div class="card-body py-5">
+                    <h3 class="mb-3">Ready to Find Your Perfect Parts?</h3>
+                    <p class="lead mb-4">Browse our extensive catalog and experience the Pro Auto Parts difference.</p>
+                    <a href="products.html" class="btn btn-light btn-lg me-3">
+                        <i class="bi bi-grid me-2"></i>Browse Products
+                    </a>
+                    <a href="contact.html" class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-envelope me-2"></i>Contact Us
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer mt-auto py-4" role="contentinfo">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; 2025 Pro Auto Parts. All Rights Reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <span class="mx-2">|</span>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                    <span class="mx-2">|</span>
+                    <a href="#" class="footer-link">Shipping Info</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mini Cart Modal -->
+    <div class="modal fade" id="mini-cart-modal" tabindex="-1" aria-labelledby="mini-cart-modal-label" aria-hidden="true" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mini-cart-modal-label">
+                        <i class="bi bi-cart me-2"></i>Your Cart
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="mini-cart-body">
+                    <!-- Dynamic Cart Items -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue Shopping</button>
+                    <button type="button" class="btn btn-primary cta-button">
+                        <i class="bi bi-credit-card me-2"></i>Proceed to Checkout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="products.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Pro Auto Parts & Tires</title>
+    <meta name="description" content="Get in touch with Pro Auto Parts. We're here to help with all your automotive parts needs. Contact us for support, quotes, or questions.">
+    <meta name="keywords" content="contact us, auto parts support, automotive help, customer service">
+    <meta name="author" content="Pro Auto Parts">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Contact Us - Pro Auto Parts">
+    <meta property="og:description" content="Get in touch with our automotive experts">
+    <meta property="og:type" content="website">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔧</text></svg>">
+    
+    <!-- Stylesheets -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="navbar navbar-expand-lg sticky-top" role="banner">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html" aria-label="Pro Auto Parts Home">
+                <i class="bi bi-gear-wide-connected" aria-hidden="true"></i>
+                <span>Pro Auto Parts</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto" role="menubar">
+                    <li class="nav-item" role="none">
+                        <a class="nav-link" href="index.html" role="menuitem">Home</a>
+                    </li>
+                    <li class="nav-item dropdown" role="none">
+                        <a class="nav-link dropdown-toggle" href="products.html" role="menuitem">
+                            <i class="bi bi-grid me-1"></i>Products
+                        </a>
+                    </li>
+                    <li class="nav-item" role="none">
+                        <a class="nav-link" href="about.html" role="menuitem">
+                            <i class="bi bi-info-circle me-1"></i>About Us
+                        </a>
+                    </li>
+                    <li class="nav-item" role="none">
+                        <a class="nav-link active" href="contact.html" role="menuitem">
+                            <i class="bi bi-envelope me-1"></i>Contact Us
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="d-flex align-items-center gap-3">
+                    <form class="d-flex" role="search">
+                        <div class="position-relative">
+                            <input class="form-control" type="search" placeholder="Search parts, brands, or vehicles..." aria-label="Search parts" id="search-bar">
+                        </div>
+                    </form>
+                    
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="theme-switcher" aria-label="Toggle dark mode">
+                        <label class="form-check-label" for="theme-switcher">
+                            <i class="bi bi-moon-stars-fill" aria-hidden="true"></i>
+                        </label>
+                    </div>
+                    
+                    <a href="#" class="nav-link cart-icon-wrapper" data-bs-toggle="modal" data-bs-target="#mini-cart-modal" aria-label="View shopping cart">
+                        <i class="bi bi-cart-fill fs-4" aria-hidden="true"></i>
+                        <span class="cart-quantity-indicator" id="cart-quantity" aria-live="polite">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mt-5 flex-grow-1" role="main">
+        <!-- Page Header -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Contact Us</li>
+                    </ol>
+                </nav>
+                <h1 class="display-4 fw-bold mb-4">Contact Us</h1>
+                <p class="lead text-muted">We're here to help with all your automotive parts needs</p>
+            </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="row mb-5">
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="bi bi-envelope display-1 text-primary mb-3"></i>
+                        <h4 class="card-title">Email Us</h4>
+                        <p class="card-text">
+                            <a href="mailto:contact@proautoparts.com">contact@proautoparts.com</a><br>
+                            <a href="mailto:support@proautoparts.com">support@proautoparts.com</a>
+                        </p>
+                        <p class="text-muted small">We typically respond within 2 hours during business hours.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="bi bi-telephone display-1 text-primary mb-3"></i>
+                        <h4 class="card-title">Call Us</h4>
+                        <p class="card-text">
+                            <a href="tel:1-800-555-0199">1-800-555-0199</a><br>
+                            <a href="tel:1-555-123-4567">1-555-123-4567</a>
+                        </p>
+                        <p class="text-muted small">Mon-Fri: 8AM-6PM | Sat: 9AM-4PM</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="bi bi-geo-alt display-1 text-primary mb-3"></i>
+                        <h4 class="card-title">Visit Us</h4>
+                        <p class="card-text">
+                            123 Auto Parts Way<br>
+                            Automotive City, AC 12345<br>
+                            United States
+                        </p>
+                        <p class="text-muted small">Free parking available on-site.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form and Map -->
+        <div class="row">
+            <div class="col-lg-8 mb-5">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="mb-0">Send us a Message</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="contact-form">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="firstName" class="form-label">First Name *</label>
+                                    <input type="text" class="form-control" id="firstName" name="firstName" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="lastName" class="form-label">Last Name *</label>
+                                    <input type="text" class="form-control" id="lastName" name="lastName" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">Email Address *</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="phone" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" id="phone" name="phone">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Subject *</label>
+                                <select class="form-select" id="subject" name="subject" required>
+                                    <option value="">Select a subject</option>
+                                    <option value="general">General Inquiry</option>
+                                    <option value="product">Product Information</option>
+                                    <option value="technical">Technical Support</option>
+                                    <option value="order">Order Status</option>
+                                    <option value="warranty">Warranty Claim</option>
+                                    <option value="feedback">Feedback</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Message *</label>
+                                <textarea class="form-control" id="message" name="message" rows="5" required placeholder="Please describe your inquiry in detail..."></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="newsletter" name="newsletter">
+                                    <label class="form-check-label" for="newsletter">
+                                        Subscribe to our newsletter for updates and special offers
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-send me-2"></i>Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-5">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="mb-0">Our Location</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <h6 class="fw-semibold">Store Hours</h6>
+                            <p class="mb-1">Monday - Friday: 8:00 AM - 6:00 PM</p>
+                            <p class="mb-1">Saturday: 9:00 AM - 4:00 PM</p>
+                            <p class="mb-3">Sunday: Closed</p>
+                        </div>
+                        <div class="mb-3">
+                            <h6 class="fw-semibold">Services</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="bi bi-check-circle text-success me-2"></i>Parts Consultation</li>
+                                <li><i class="bi bi-check-circle text-success me-2"></i>Technical Support</li>
+                                <li><i class="bi bi-check-circle text-success me-2"></i>Installation Guidance</li>
+                                <li><i class="bi bi-check-circle text-success me-2"></i>Warranty Claims</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h6 class="fw-semibold">Emergency Support</h6>
+                            <p class="mb-1">After hours: <a href="tel:1-800-555-0199">1-800-555-0199</a></p>
+                            <p class="text-muted small">For urgent technical support during non-business hours.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map Section -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="mb-0">Find Us</h3>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="ratio ratio-21x9">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.2219901290355!2d-74.00369368400567!3d40.71312937933185!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a23e28c1191%3A0x49f75d3281df052a!2s150%20Park%20Row%2C%20New%20York%2C%20NY%2010007%2C%20USA!5e0!3m2!1sen!2sus!4v1640995200000!5m2!1sen!2sus" 
+                                    style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2 class="section-title text-center mb-4">Frequently Asked Questions</h2>
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq1">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                                How do I find the right part for my vehicle?
+                            </button>
+                        </h2>
+                        <div id="collapse1" class="accordion-collapse collapse show" aria-labelledby="faq1" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                You can search by your vehicle's make, model, and year on our website, or contact our technical support team for personalized assistance. We also offer a vehicle compatibility checker tool.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq2">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                                What is your return policy?
+                            </button>
+                        </h2>
+                        <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="faq2" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                We offer a 30-day return policy for unused items in original packaging. Some items may have different return terms due to manufacturer restrictions. Please contact us for specific details.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq3">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                                Do you offer installation services?
+                            </button>
+                        </h2>
+                        <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="faq3" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                While we don't provide installation services directly, we partner with certified mechanics and can recommend trusted local installers in your area.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq4">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                                How long does shipping take?
+                            </button>
+                        </h2>
+                        <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="faq4" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Standard shipping takes 3-5 business days. We also offer expedited shipping options for urgent orders. Free shipping is available on orders over $100.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer mt-auto py-4" role="contentinfo">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; 2025 Pro Auto Parts. All Rights Reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <span class="mx-2">|</span>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                    <span class="mx-2">|</span>
+                    <a href="#" class="footer-link">Shipping Info</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mini Cart Modal -->
+    <div class="modal fade" id="mini-cart-modal" tabindex="-1" aria-labelledby="mini-cart-modal-label" aria-hidden="true" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mini-cart-modal-label">
+                        <i class="bi bi-cart me-2"></i>Your Cart
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="mini-cart-body">
+                    <!-- Dynamic Cart Items -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue Shopping</button>
+                    <button type="button" class="btn btn-primary cta-button">
+                        <i class="bi bi-credit-card me-2"></i>Proceed to Checkout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="success-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">
+                    <i class="bi bi-check-circle-fill text-success me-2"></i>Success
+                </strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Message sent successfully!
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="products.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Contact form handling
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Simulate form submission
+            console.log('Contact form submitted:', data);
+            
+            // Show success message
+            const toast = new bootstrap.Toast(document.getElementById('success-toast'));
+            toast.show();
+            
+            // Reset form
+            this.reset();
+        });
+    </script>
+</body>
+</html> 
