@@ -19,5 +19,9 @@ export default defineConfig({
         }
       }
     }
+  },
+  esbuild: {
+    loader: 'tsx',
+    include: ['src/**/*.tsx', 'src/**/*.ts']
   }
 }) 
