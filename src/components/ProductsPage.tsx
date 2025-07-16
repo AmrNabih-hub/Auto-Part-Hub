@@ -1,11 +1,27 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import productsData from '../data/products';
+import axios from 'axios';
 import ProductGrid from './ProductGrid';
 import Filters, { FilterState } from './Filters';
 import { FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
+import { toast } from 'react-hot-toast';
+
+interface Product {
+  _id: string;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  imageUrl: string;
+  stockQuantity: number;
+  // Add other fields as per your backend Product model
+}
 
 const ProductsPage: React.FC = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   const [filters, setFilters] = useState<FilterState>({
     category: 'All',
     brand: 'All',
@@ -18,17 +34,34 @@ const ProductsPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get<Product[]>('/api/products');
+        setProducts(res.data);
+      } catch (err: any) {
+        setError(err.response?.data?.message || 'Failed to fetch products');
+        toast.error(err.response?.data?.message || 'Failed to fetch products');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   const filteredAndSortedProducts = useMemo(() => {
-    let filtered = productsData.filter((product) => {
+    let filtered = products.filter((product) => {
       const categoryMatch = filters.category === 'All' || product.category === filters.category;
-      const brandMatch = filters.brand === 'All' || product.brand === filters.brand;
+      // Assuming 'brand' is not directly in product model, or needs to be added
+      // const brandMatch = filters.brand === 'All' || product.brand === filters.brand;
       const priceMatch = product.price >= filters.priceRange[0] && product.price <= filters.priceRange[1];
-      const inStockMatch = !filters.inStock || product.inStock;
+      const inStockMatch = !filters.inStock || product.stockQuantity > 0;
       const searchMatch =
         !filters.searchTerm ||
         product.name.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
         product.description.toLowerCase().includes(filters.searchTerm.toLowerCase());
-      return categoryMatch && brandMatch && priceMatch && inStockMatch && searchMatch;
+      return categoryMatch && priceMatch && inStockMatch && searchMatch; // Removed brandMatch for now
     });
 
     return filtered.sort((a, b) => {
@@ -39,7 +72,7 @@ const ProductsPage: React.FC = () => {
       }
       return 0;
     });
-  }, [filters, sort]);
+  }, [products, filters, sort]);
 
   const totalPages = Math.ceil(filteredAndSortedProducts.length / productsPerPage);
   const paginatedProducts = filteredAndSortedProducts.slice(
@@ -53,6 +86,14 @@ const ProductsPage: React.FC = () => {
       order: prev.by === by && prev.order === 'asc' ? 'desc' : 'asc'
     }));
   };
+
+  if (loading) {
+    return <div className="text-center text-gray-700 dark:text-gray-300">Loading products...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center text-red-500">Error: {error}</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
@@ -72,7 +113,7 @@ const ProductsPage: React.FC = () => {
         </motion.div>
         <div className="flex flex-col lg:flex-row gap-8">
           <aside className="lg:w-1/4">
-            <Filters onFilterChange={setFilters} products={productsData} />
+            <Filters onFilterChange={setFilters} products={products} />
           </aside>
           <div className="lg:w-3/4">
             {/* Sort and Results Header */}
@@ -129,4 +170,4 @@ const ProductsPage: React.FC = () => {
   );
 };
 
-export default ProductsPage; 
+export default ProductsPage;

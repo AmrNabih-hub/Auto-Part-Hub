@@ -4,12 +4,12 @@ import { FaShoppingCart, FaTrash, FaMinus, FaPlus } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const CartPage: React.FC = () => {
-  const { items, removeItem, updateQuantity, totals, clearCart } = useCart();
+  const { items, removeFromCart, updateQuantity, totals, clearCart } = useCart();
   const cartItemCount = items.reduce((total, item) => total + item.quantity, 0);
 
   const handleQuantityChange = (id: string, newQuantity: number) => {
     if (newQuantity <= 0) {
-      removeItem(id);
+      removeFromCart(id);
     } else {
       updateQuantity(id, newQuantity);
     }
@@ -39,7 +39,7 @@ const CartPage: React.FC = () => {
             <div className="space-y-4">
               {items.map((item) => (
                 <motion.div
-                  key={item.id}
+                  key={item._id}
                   className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -47,7 +47,7 @@ const CartPage: React.FC = () => {
                   layout
                 >
                   <img
-                    src={item.image}
+                    src={item.imageUrl}
                     alt={item.name}
                     className="w-16 h-16 object-cover rounded"
                   />
@@ -61,7 +61,7 @@ const CartPage: React.FC = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     <button
-                      onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                      onClick={() => handleQuantityChange(item._id, item.quantity - 1)}
                       className="p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded disabled:opacity-50 disabled:cursor-not-allowed"
                       disabled={item.quantity <= 1}
                       title={item.quantity <= 1 ? 'Minimum quantity is 1' : ''}
@@ -72,7 +72,7 @@ const CartPage: React.FC = () => {
                       {item.quantity}
                     </span>
                     <button
-                      onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                      onClick={() => handleQuantityChange(item._id, item.quantity + 1)}
                       className="p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded disabled:opacity-50 disabled:cursor-not-allowed"
                       disabled={false}
                       title={''}
@@ -80,7 +80,7 @@ const CartPage: React.FC = () => {
                       <FaPlus className="text-xs" />
                     </button>
                     <button
-                      onClick={() => removeItem(item.id)}
+                      onClick={() => removeFromCart(item._id)}
                       className="p-1 text-red-500 hover:bg-red-100 dark:hover:bg-red-900 rounded"
                     >
                       <FaTrash className="text-xs" />
@@ -131,4 +131,4 @@ const CartPage: React.FC = () => {
   );
 };
 
-export default CartPage; 
+export default CartPage;

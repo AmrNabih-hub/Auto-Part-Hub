@@ -1,12 +1,14 @@
 import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
 import toast from 'react-hot-toast';
+import axios from 'axios';
 import { CartItem, Product, CartTotals } from '../types';
 import { cartReducer, calculateTotals } from './cartUtils';
+import { useAuth } from './AuthContext';
 
 interface CartContextType {
   items: CartItem[];
-  addItem: (product: Product, quantity?: number) => void;
-  removeItem: (productId: string) => void;
+  addToCart: (productId: string, quantity: number) => void;
+  removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
   totals: CartTotals;
@@ -24,74 +26,123 @@ interface CartProviderProps {
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, { items: [] });
   const [isCartOpen, setCartOpen] = React.useState(false);
+  const { user, token } = useAuth();
 
-  // Load cart from localStorage on mount
+  // Fetch cart from backend on mount or when user/token changes
   useEffect(() => {
-    const savedCart = localStorage.getItem('cart');
-    if (savedCart) {
-      try {
-        const parsedCart = JSON.parse(savedCart);
-        dispatch({ type: 'SET_CART', payload: parsedCart });
-      } catch (error) {
-        console.error('Error loading cart from localStorage:', error);
+    const fetchCart = async () => {
+      if (user && token) {
+        try {
+          const config = {
+            headers: {
+              'x-auth-token': token,
+            },
+          };
+          const res = await axios.get('/api/cart', config);
+          dispatch({ type: 'SET_CART', payload: res.data.items });
+        } catch (err) {
+          console.error('Failed to fetch cart:', err);
+          // toast.error('Failed to load cart.');
+        }
+      } else {
+        dispatch({ type: 'CLEAR_CART' }); // Clear cart if no user is logged in
       }
+    };
+
+    fetchCart();
+  }, [user, token]);
+
+  const addToCart = async (productId: string, quantity: number = 1) => {
+    if (!user || !token) {
+      toast.error('Please log in to add items to cart.');
+      return;
     }
-  }, []);
-
-  // Save cart to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(state.items));
-  }, [state.items]);
-
-  // Add item to cart, increment quantity if duplicate
-  const addItem = (product: Product, quantity: number = 1) => {
-    dispatch({ type: 'ADD_ITEM', payload: { ...product, quantity } });
-    toast.success(`${product.name} added to cart!`, {
-      duration: 2000,
-      position: 'bottom-right',
-      style: {
-        background: '#10b981',
-        color: '#fff',
-      },
-    });
-  };
-
-  const removeItem = (productId: string) => {
-    let item: CartItem | undefined = undefined;
-    if (state.items.length > 0) {
-      item = state.items.find(item => item.id === productId);
-    }
-    dispatch({ type: 'REMOVE_ITEM', payload: productId });
-    if (item) {
-      toast.success(`${item.name} removed from cart`, {
-        duration: 2000,
-        position: 'bottom-right',
-        style: {
-          background: '#ef4444',
-          color: '#fff',
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'x-auth-token': token,
         },
-      });
+      };
+      const body = { productId, quantity };
+      const res = await axios.post('/api/cart', body, config);
+      dispatch({ type: 'SET_CART', payload: res.data.items });
+      toast.success(`Item added to cart!`);
+    } catch (err: any) {
+      console.error('Failed to add to cart:', err);
+      toast.error(err.response?.data?.message || 'Failed to add to cart.');
     }
   };
 
-  const updateQuantity = (productId: string, quantity: number) => {
+  const removeFromCart = async (productId: string) => {
+    if (!user || !token) {
+      toast.error('Please log in to remove items from cart.');
+      return;
+    }
+    try {
+      const config = {
+        headers: {
+          'x-auth-token': token,
+        },
+      };
+      await axios.delete(`/api/cart/${productId}`, config);
+      dispatch({ type: 'REMOVE_ITEM', payload: productId });
+      toast.success(`Item removed from cart!`);
+    } catch (err: any) {
+      console.error('Failed to remove from cart:', err);
+      toast.error(err.response?.data?.message || 'Failed to remove from cart.');
+    }
+  };
+
+  const updateQuantity = async (productId: string, quantity: number) => {
+    if (!user || !token) {
+      toast.error('Please log in to update cart quantity.');
+      return;
+    }
     if (quantity <= 0) {
-      removeItem(productId);
-    } else {
-      dispatch({ type: 'UPDATE_QUANTITY', payload: { id: productId, quantity } });
+      removeFromCart(productId);
+      return;
+    }
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'x-auth-token': token,
+        },
+      };
+      const body = { productId, quantity };
+      // Assuming addToCart can handle quantity updates by sending the new total quantity
+      const res = await axios.post('/api/cart', body, config);
+      dispatch({ type: 'SET_CART', payload: res.data.items });
+      toast.success(`Cart quantity updated!`);
+    } catch (err: any) {
+      console.error('Failed to update quantity:', err);
+      toast.error(err.response?.data?.message || 'Failed to update quantity.');
     }
   };
 
-  const clearCart = () => {
-    dispatch({ type: 'CLEAR_CART' });
-    toast.success('Cart cleared!', {
-      duration: 2000,
-      position: 'bottom-right',
-      style: {
-        background: '#f59e0b',
-        color: '#fff',
-      },
-    });
+  const clearCart = async () => {
+    if (!user || !token) {
+      toast.error('Please log in to clear cart.');
+      return;
+    }
+    // Backend doesn't have a clear cart endpoint, so we'll remove items one by one
+    // In a real app, you'd add a dedicated endpoint for this.
+    try {
+      const config = {
+        headers: {
+          'x-auth-token': token,
+        },
+      };
+      for (const item of state.items) {
+        await axios.delete(`/api/cart/${item._id}`, config);
+      }
+      dispatch({ type: 'CLEAR_CART' });
+      toast.success('Cart cleared!');
+    } catch (err: any) {
+      console.error('Failed to clear cart:', err);
+      toast.error(err.response?.data?.message || 'Failed to clear cart.');
+    }
   };
 
   const totals = calculateTotals(state.items);
@@ -101,8 +152,8 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   const value: CartContextType = {
     items: state.items,
-    addItem,
-    removeItem,
+    addToCart,
+    removeFromCart,
     updateQuantity,
     clearCart,
     totals,
@@ -124,4 +175,4 @@ export const useCart = (): CartContextType => {
     throw new Error('useCart must be used within a CartProvider');
   }
   return context;
-}; 
+};

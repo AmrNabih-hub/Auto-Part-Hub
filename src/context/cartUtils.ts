@@ -2,51 +2,10 @@ import { CartState, CartItem, CartAction, CartTotals } from '../types';
 
 export const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
-    case 'ADD_ITEM': {
-      const { id, quantity = 1 } = action.payload;
-      const existingItem = state.items.find(item => item.id === id);
-      if (existingItem) {
-        // If product has a stock limit, do not exceed it
-        let maxQuantity = quantity;
-        if ('quantity' in action.payload && typeof action.payload.quantity === 'number') {
-          maxQuantity = Math.min(existingItem.quantity + quantity, action.payload.quantity);
-        } else {
-          maxQuantity = existingItem.quantity + quantity;
-        }
-        return {
-          ...state,
-          items: state.items.map(item =>
-            item.id === id
-              ? { ...item, quantity: maxQuantity }
-              : item
-          )
-        };
-      }
-      return {
-        ...state,
-        items: [...state.items, {
-          id: action.payload.id,
-          name: action.payload.name,
-          price: action.payload.price,
-          quantity: quantity,
-          image: action.payload.image,
-          vendor: action.payload.vendor
-        }]
-      };
-    }
     case 'REMOVE_ITEM':
       return {
         ...state,
-        items: state.items.filter(item => item.id !== action.payload)
-      };
-    case 'UPDATE_QUANTITY':
-      return {
-        ...state,
-        items: state.items.map(item =>
-          item.id === action.payload.id
-            ? { ...item, quantity: action.payload.quantity }
-            : item
-        )
+        items: state.items.filter(item => item._id !== action.payload)
       };
     case 'CLEAR_CART':
       return {
@@ -69,4 +28,4 @@ export const calculateTotals = (items: CartItem[]): CartTotals => {
   const shipping = subtotal > 500 ? 0 : 8.99;
   const total = subtotal + tax + shipping;
   return { subtotal, tax, shipping, total };
-}; 
+};

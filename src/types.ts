@@ -1,24 +1,23 @@
 export interface Product {
-  id: string;
+  _id: string;
   name: string;
   price: number;
   vendor: string;
-  image: string;
+  imageUrl: string;
   description: string;
   category: string;
-  brand: string;
-  inStock: boolean;
-  quantity: number;
-  rating?: number;
-  reviews?: number;
+  sku: string;
+  stockQuantity: number;
+  soldCount: number;
+  status: string;
 }
 
 export interface CartItem {
-  id: string;
+  _id: string;
   name: string;
   price: number;
   quantity: number;
-  image: string;
+  imageUrl: string;
   vendor: string;
 }
 
@@ -46,4 +45,4 @@ export type CartAction =
   | { type: 'REMOVE_ITEM'; payload: string }
   | { type: 'UPDATE_QUANTITY'; payload: { id: string; quantity: number } }
   | { type: 'CLEAR_CART' }
-  | { type: 'SET_CART'; payload: CartItem[] }; 
+  | { type: 'SET_CART'; payload: CartItem[] };

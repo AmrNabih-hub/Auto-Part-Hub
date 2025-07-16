@@ -1,27 +1,29 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaShoppingCart, FaSearch, FaBars, FaTimes, FaMoon, FaSun } from 'react-icons/fa';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 
 const Header: React.FC = () => {
   const { items } = useCart();
+  const { user, logout } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [isDarkMode, setIsDarkMode] = useState(false);
-  // Add a custom event to open the cart drawer
-  // const openCart = () => {
-  //   console.log('Dispatching open-cart event');
-  //   const event = new CustomEvent('open-cart');
-  //   window.dispatchEvent(event);
-  // };
 
   const cartItemCount = items.reduce((total, item) => total + item.quantity, 0);
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
     document.documentElement.classList.toggle('dark');
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
   };
 
   return (
@@ -65,6 +67,47 @@ const Header: React.FC = () => {
                 </Link>
               </motion.div>
             ))}
+            {!user && (
+              <>
+                <motion.div whileHover={{ scale: 1.05 }}>
+                  <Link
+                    to="/login"
+                    className={`relative px-3 py-1 rounded-full transition-all duration-200
+                      ${location.pathname === '/login'
+                        ? 'text-white bg-automotive-orange font-semibold'
+                        : 'text-gray-700 dark:text-gray-300 hover:text-white hover:bg-automotive-orange'}
+                    `}
+                    style={{ zIndex: 1 }}
+                  >
+                    Login
+                  </Link>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.05 }}>
+                  <Link
+                    to="/register"
+                    className={`relative px-3 py-1 rounded-full transition-all duration-200
+                      ${location.pathname === '/register'
+                        ? 'text-white bg-automotive-orange font-semibold'
+                        : 'text-gray-700 dark:text-gray-300 hover:text-white hover:bg-automotive-orange'}
+                    `}
+                    style={{ zIndex: 1 }}
+                  >
+                    Register
+                  </Link>
+                </motion.div>
+              </>
+            )}
+            {user && (
+              <motion.div whileHover={{ scale: 1.05 }}>
+                <span className="text-gray-700 dark:text-gray-300">Welcome, {user.name}</span>
+                <button
+                  onClick={handleLogout}
+                  className="ml-4 relative px-3 py-1 rounded-full transition-all duration-200 text-gray-700 dark:text-gray-300 hover:text-white hover:bg-automotive-orange"
+                >
+                  Logout
+                </button>
+              </motion.div>
+            )}
           </nav>
 
           {/* Search Bar */}
@@ -156,6 +199,45 @@ const Header: React.FC = () => {
                   {label}
                 </Link>
               ))}
+              {!user && (
+                <>
+                  <Link
+                    to="/login"
+                    className={`relative px-3 py-2 rounded-full transition-all duration-200
+                      ${location.pathname === '/login'
+                        ? 'text-white bg-automotive-orange font-semibold'
+                        : 'text-gray-700 dark:text-gray-300 hover:text-white hover:bg-automotive-orange'}
+                    `}
+                    onClick={() => setIsMenuOpen(false)}
+                    style={{ zIndex: 1 }}
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    to="/register"
+                    className={`relative px-3 py-2 rounded-full transition-all duration-200
+                      ${location.pathname === '/register'
+                        ? 'text-white bg-automotive-orange font-semibold'
+                        : 'text-gray-700 dark:text-gray-300 hover:text-white hover:bg-automotive-orange'}
+                    `}
+                    onClick={() => setIsMenuOpen(false)}
+                    style={{ zIndex: 1 }}
+                  >
+                    Register
+                  </Link>
+                </>
+              )}
+              {user && (
+                <>
+                  <span className="text-gray-700 dark:text-gray-300 px-3 py-2">Welcome, {user.name}</span>
+                  <button
+                    onClick={() => { handleLogout(); setIsMenuOpen(false); }}
+                    className="relative px-3 py-2 rounded-full transition-all duration-200 text-gray-700 dark:text-gray-300 hover:text-white hover:bg-automotive-orange"
+                  >
+                    Logout
+                  </button>
+                </>
+              )}
             </nav>
             {/* Mobile Search */}
             <div className="mt-4">
