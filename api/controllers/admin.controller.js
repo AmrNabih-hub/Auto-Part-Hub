@@ -5,7 +5,7 @@ const Product = require('../models/product.model');
 // @access  Private (Admin)
 exports.getPendingProducts = async (req, res) => {
   try {
-    const products = await Product.find({ status: 'Pending' });
+    const products = await Product.find({ status: 'Pending' }).populate('vendor', 'name');
     res.json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });

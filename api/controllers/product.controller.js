@@ -116,7 +116,7 @@ exports.getAllApprovedProducts = async (req, res) => {
 // @access  Public
 exports.getProductById = async (req, res) => {
   try {
-    const product = await Product.findOne({ _id: req.params.id, status: 'Approved' });
+    const product = await Product.findOne({ _id: req.params.id, status: 'Approved' }).populate('vendor', 'name');
     if (!product) {
       return res.status(404).json({ msg: 'Product not found' });
     }
