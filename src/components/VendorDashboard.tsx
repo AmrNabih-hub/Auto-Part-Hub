@@ -95,7 +95,7 @@ const VendorDashboard: React.FC = () => {
         setProducts(products.filter((product) => product._id !== productId));
         toast.success('Product deleted successfully!');
       } catch (err: any) {
-        toast.error(err.response?.data?.message || 'Failed to delete product');
+        toast.error(axios.isAxiosError(err) ? err.response?.data?.message || 'Failed to delete product' : 'Failed to delete product');
       }
     }
   };
@@ -140,7 +140,7 @@ const VendorDashboard: React.FC = () => {
         stockQuantity: 0,
       });
     } catch (err: any) {
-      toast.error(err.response?.data?.message || 'Failed to update product');
+      toast.error(axios.isAxiosError(err) ? err.response?.data?.message || 'Failed to update product' : 'Failed to update product');
     }
   };
 

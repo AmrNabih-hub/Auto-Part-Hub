@@ -53,8 +53,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setToken(res.data.token);
       localStorage.setItem('token', res.data.token);
       setUser(res.data);
-    } catch (err: any) {
-      throw new Error(err.response?.data?.message || 'Vendor registration failed');
+    } catch (err: unknown) {
+      throw new Error(axios.isAxiosError(err) ? err.response?.data?.message || 'Vendor registration failed' : 'Vendor registration failed');
     }
   };
 

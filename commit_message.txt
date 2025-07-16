@@ -1,1 +1,3 @@
-Move product images to public directory for deployment compatibility.
+fix: Vercel deployment MIME type error
+
+Updated vercel.json to correctly serve static assets and handle client-side routing. This should resolve the MIME type error (text/html for JS files) encountered after deployment.

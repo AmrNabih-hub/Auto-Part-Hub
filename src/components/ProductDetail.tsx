@@ -26,8 +26,8 @@ const ProductDetail: React.FC = () => {
         const res = await axios.get(`/api/products/${id}`);
         setProduct(res.data);
       } catch (err: any) {
-        setError(err.response?.data?.message || 'Failed to fetch product');
-        toast.error(err.response?.data?.message || 'Failed to fetch product');
+        setError(axios.isAxiosError(err) ? err.response?.data?.message || 'Failed to fetch product' : 'Failed to fetch product');
+        toast.error(axios.isAxiosError(err) ? err.response?.data?.message || 'Failed to fetch product' : 'Failed to fetch product');
       } finally {
         setLoading(false);
       }

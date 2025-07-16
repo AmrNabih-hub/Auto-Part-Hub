@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { toast } from 'react-hot-toast';
 import { Product } from '../types';
 
@@ -49,7 +49,7 @@ const AdminDashboard: React.FC = () => {
       await axios.patch(`/api/admin/products/${productId}/${action}`, {}, config);
       setPendingProducts(pendingProducts.filter((product) => product._id !== productId));
       toast.success(`Product ${action}d successfully!`);
-    } catch (err: any) {
+    } catch (err: AxiosError) {
       toast.error(err.response?.data?.message || `Failed to ${action} product.`);
     }
   };

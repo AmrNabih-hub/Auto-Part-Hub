@@ -117,7 +117,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       toast.success(`Cart quantity updated!`);
     } catch (err: any) {
       console.error('Failed to update quantity:', err);
-      toast.error(err.response?.data?.message || 'Failed to update quantity.');
+      toast.error(axios.isAxiosError(err) ? err.response?.data?.message || 'Failed to update quantity.' : 'Failed to update quantity.');
     }
   };
 
@@ -139,9 +139,9 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       }
       dispatch({ type: 'CLEAR_CART' });
       toast.success('Cart cleared!');
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to clear cart:', err);
-      toast.error(err.response?.data?.message || 'Failed to clear cart.');
+      toast.error(axios.isAxiosError(err) ? err.response?.data?.message || 'Failed to clear cart.' : 'Failed to clear cart.');
     }
   };
 

@@ -16,7 +16,7 @@ const Login: React.FC = () => {
       toast.success('Logged in successfully!');
       navigate('/');
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error instanceof Error ? error.message : 'An unknown error occurred');
     }
   };
 

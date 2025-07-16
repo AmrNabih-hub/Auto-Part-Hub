@@ -24,7 +24,7 @@ const Register: React.FC = () => {
       }
       navigate('/');
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error instanceof Error ? error.message : 'An unknown error occurred');
     }
   };
 

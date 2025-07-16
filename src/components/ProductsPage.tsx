@@ -40,8 +40,8 @@ const ProductsPage: React.FC = () => {
         const res = await axios.get<Product[]>('/api/products');
         setProducts(res.data);
       } catch (err: any) {
-        setError(err.response?.data?.message || 'Failed to fetch products');
-        toast.error(err.response?.data?.message || 'Failed to fetch products');
+        setError(axios.isAxiosError(err) ? err.response?.data?.message || 'Failed to fetch products' : 'Failed to fetch products');
+        toast.error(axios.isAxiosError(err) ? err.response?.data?.message || 'Failed to fetch products' : 'Failed to fetch products');
       } finally {
         setLoading(false);
       }
@@ -51,7 +51,7 @@ const ProductsPage: React.FC = () => {
   }, []);
 
   const filteredAndSortedProducts = useMemo(() => {
-    let filtered = products.filter((product) => {
+    const filtered = products.filter((product) => {
       const categoryMatch = filters.category === 'All' || product.category === filters.category;
       // Assuming 'brand' is not directly in product model, or needs to be added
       // const brandMatch = filters.brand === 'All' || product.brand === filters.brand;
