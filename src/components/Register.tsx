@@ -7,21 +7,15 @@ const Register: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isVendor, setIsVendor] = useState(false);
-  const [companyName, setCompanyName] = useState('');
-  const { register, becomeVendor } = useAuth();
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const { register } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      if (isVendor) {
-        await becomeVendor(name, email, password, companyName);
-        toast.success('Vendor account created successfully!');
-      } else {
-        await register(name, email, password);
-        toast.success('Account created successfully!');
-      }
+      await register(name, email, password, passwordConfirmation);
+      toast.success('Registered successfully!');
       navigate('/');
     } catch (error: any) {
       toast.error(error instanceof Error ? error.message : 'An unknown error occurred');
@@ -58,46 +52,32 @@ const Register: React.FC = () => {
             required
           />
         </div>
-        <div className="mb-6">
+        <div className="mb-4">
           <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" htmlFor="password">
             Password:
           </label>
           <input
             type="password"
             id="password"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-white dark:border-gray-600"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-white dark:border-gray-600"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
-        <div className="mb-4">
-          <input
-            type="checkbox"
-            id="isVendor"
-            className="mr-2 leading-tight"
-            checked={isVendor}
-            onChange={(e) => setIsVendor(e.target.checked)}
-          />
-          <label className="text-sm text-gray-700 dark:text-gray-300" htmlFor="isVendor">
-            Register as a Vendor
+        <div className="mb-6">
+          <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" htmlFor="passwordConfirmation">
+            Confirm Password:
           </label>
+          <input
+            type="password"
+            id="passwordConfirmation"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-white dark:border-gray-600"
+            value={passwordConfirmation}
+            onChange={(e) => setPasswordConfirmation(e.target.value)}
+            required
+          />
         </div>
-        {isVendor && (
-          <div className="mb-4">
-            <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" htmlFor="companyName">
-              Company Name:
-            </label>
-            <input
-              type="text"
-              id="companyName"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-white dark:border-gray-600"
-              value={companyName}
-              onChange={(e) => setCompanyName(e.target.value)}
-              required={isVendor}
-            />
-          </div>
-        )}
         <div className="flex items-center justify-between">
           <button
             type="submit"

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 import { AuthProvider } from './context/AuthContext'
+import './sentry';
 
 const rootElement = document.getElementById('root');
 if (rootElement) {

@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import axios from 'axios';
 import ProductGrid from './ProductGrid';
 import Filters, { FilterState } from './Filters';
 import { FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
-import { toast } from 'react-hot-toast';
+import useFetch from '../hooks/useFetch.tsx';
 
 interface Product {
   _id: string;
@@ -18,9 +17,8 @@ interface Product {
 }
 
 const ProductsPage: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  // Temporarily use hardcoded API URL for testing
+  const { data: products, loading, error } = useFetch<Product[]>('http://localhost:8080/api/products');
 
   const [filters, setFilters] = useState<FilterState>({
     category: 'All',
@@ -34,23 +32,9 @@ const ProductsPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await axios.get<Product[]>('/api/products');
-        setProducts(res.data);
-      } catch (err: any) {
-        setError(axios.isAxiosError(err) ? err.response?.data?.message || 'Failed to fetch products' : 'Failed to fetch products');
-        toast.error(axios.isAxiosError(err) ? err.response?.data?.message || 'Failed to fetch products' : 'Failed to fetch products');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
   const filteredAndSortedProducts = useMemo(() => {
+    if (!products) return [];
+
     const filtered = products.filter((product) => {
       const categoryMatch = filters.category === 'All' || product.category === filters.category;
       // Assuming 'brand' is not directly in product model, or needs to be added
@@ -113,7 +97,7 @@ const ProductsPage: React.FC = () => {
         </motion.div>
         <div className="flex flex-col lg:flex-row gap-8">
           <aside className="lg:w-1/4">
-            <Filters onFilterChange={setFilters} products={products} />
+            <Filters onFilterChange={setFilters} products={products || []} />
           </aside>
           <div className="lg:w-3/4">
             {/* Sort and Results Header */}

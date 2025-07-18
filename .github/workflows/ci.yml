@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    services:
+      sqlite:
+        image: nouchka/sqlite3:latest
+        ports:
+          - 3306:3306
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Build backend Docker image
+        run: docker compose -f backend/docker-compose.yml build
+      - name: Run migrations
+        run: docker compose -f backend/docker-compose.yml run --rm app php artisan migrate:fresh --seed
+      - name: Run tests
+        run: docker compose -f backend/docker-compose.yml run --rm app php artisan test

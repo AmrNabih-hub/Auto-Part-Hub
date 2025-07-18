@@ -1,21 +1,24 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
 import Header from './components/Header';
-import Home from './components/Home';
-import ProductsPage from './components/ProductsPage';
-import AboutPage from './components/AboutPage';
-import ContactPage from './components/ContactPage';
-import CartPage from './components/CartPage';
-import NotFoundPage from './components/NotFoundPage';
-import Login from './components/Login';
-import Register from './components/Register';
-import ProductDetail from './components/ProductDetail';
-import VendorDashboard from './components/VendorDashboard';
-import AdminDashboard from './components/AdminDashboard';
 import { Toaster } from 'react-hot-toast';
 import Footer from './components/Footer';
 import { useAuth } from './context/AuthContext';
+
+// Lazy-loaded components
+const Home = React.lazy(() => import('./components/Home'));
+const ProductsPage = React.lazy(() => import('./components/ProductsPage'));
+const AboutPage = React.lazy(() => import('./components/AboutPage'));
+const ContactPage = React.lazy(() => import('./components/ContactPage'));
+const CartPage = React.lazy(() => import('./components/CartPage'));
+const NotFoundPage = React.lazy(() => import('./components/NotFoundPage'));
+const Login = React.lazy(() => import('./components/Login'));
+const Register = React.lazy(() => import('./components/Register'));
+const ProductDetail = React.lazy(() => import('./components/ProductDetail'));
+const VendorDashboard = React.lazy(() => import('./components/VendorDashboard'));
+const AdminDashboard = React.lazy(() => import('./components/AdminDashboard'));
+const SentryTest = React.lazy(() => import('./components/SentryTest'));
 
 const App: React.FC = () => {
   const { user } = useAuth();
@@ -38,23 +41,26 @@ const App: React.FC = () => {
           />
           <Header />
           <main className="flex-grow">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/products" element={<ProductsPage />} />
-              <Route path="/products/:id" element={<ProductDetail />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/contact" element={<ContactPage />} />
-              <Route path="/cart" element={<CartPage />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              {user && user.role === 'vendor' && (
-                <Route path="/vendor-dashboard" element={<VendorDashboard />} />
-              )}
-              {user && user.role === 'admin' && (
-                <Route path="/admin-dashboard" element={<AdminDashboard />} />
-              )}
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
+            <Suspense fallback={<div>Loading...</div>}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/products" element={<ProductsPage />} />
+                <Route path="/products/:id" element={<ProductDetail />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="/cart" element={<CartPage />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                {user && user.role === 'vendor' && (
+                  <Route path="/vendor-dashboard" element={<VendorDashboard />} />
+                )}
+                {user && user.role === 'admin' && (
+                  <Route path="/admin-dashboard" element={<AdminDashboard />} />
+                )}
+                <Route path="/sentry-test" element={<SentryTest />} />
+                <Route path="*" element={<NotFoundPage />} />
+              </Routes>
+            </Suspense>
           </main>
           <Footer />
         </div>

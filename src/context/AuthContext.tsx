@@ -26,22 +26,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (email, password) => {
     try {
-      const res = await axios.post('/api/auth/login', { email, password });
-      setToken(res.data.token);
-      localStorage.setItem('token', res.data.token);
-      // In a real app, you'd decode the token or fetch user data here
-      setUser(res.data); // Assuming res.data contains user info and token
+      // Get CSRF cookie for Sanctum
+      await axios.get('http://localhost:8080/sanctum/csrf-cookie', { withCredentials: true });
+      const res = await axios.post('http://localhost:8080/api/login', { email, password }, { withCredentials: true });
+      setToken(res.data.access_token);
+      localStorage.setItem('token', res.data.access_token);
+      setUser(res.data.user);
+      // Set default Authorization header for future requests
+      axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.access_token}`;
     } catch (err: any) {
       throw new Error(err.response?.data?.message || 'Login failed');
     }
   };
 
-  const register = async (name, email, password) => {
+  const register = async (name, email, password, password_confirmation = password) => {
     try {
-      const res = await axios.post('/api/auth/register', { name, email, password });
-      setToken(res.data.token);
-      localStorage.setItem('token', res.data.token);
-      setUser(res.data);
+      // Get CSRF cookie for Sanctum
+      await axios.get('http://localhost:8080/sanctum/csrf-cookie', { withCredentials: true });
+      const res = await axios.post('http://localhost:8080/api/register', { name, email, password, password_confirmation }, { withCredentials: true });
+      setToken(res.data.access_token);
+      localStorage.setItem('token', res.data.access_token);
+      setUser(res.data.user);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.access_token}`;
     } catch (err: any) {
       throw new Error(err.response?.data?.message || 'Registration failed');
     }
@@ -58,10 +64,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await axios.post('http://localhost:8080/api/logout', {}, {
+        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
+      });
+    } catch (err) {
+      // Ignore errors on logout
+    }
     setToken(null);
     setUser(null);
     localStorage.removeItem('token');
+    delete axios.defaults.headers.common['Authorization'];
   };
 
   return (

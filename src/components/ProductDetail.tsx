@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useCart } from '../context/CartContext';
+import useFetch from '../hooks/useFetch.tsx';
 
 interface Product {
   _id: string;
@@ -15,26 +15,8 @@ interface Product {
 
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [product, setProduct] = useState<Product | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data: product, loading, error } = useFetch<Product>(`/api/products/${id}`);
   const { addToCart } = useCart();
-
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const res = await axios.get(`/api/products/${id}`);
-        setProduct(res.data);
-      } catch (err: any) {
-        setError(axios.isAxiosError(err) ? err.response?.data?.message || 'Failed to fetch product' : 'Failed to fetch product');
-        toast.error(axios.isAxiosError(err) ? err.response?.data?.message || 'Failed to fetch product' : 'Failed to fetch product');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProduct();
-  }, [id]);
 
   if (loading) {
     return <div className="text-center text-gray-700 dark:text-gray-300">Loading product...</div>;
