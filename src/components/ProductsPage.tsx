@@ -37,7 +37,8 @@ const ProductsPage: React.FC = () => {
 
     const filtered = products.filter((product) => {
       const categoryMatch = filters.category === 'All' || product.category === filters.category;
-      // Assuming 'brand' is not directly in product model, or needs to be added
+      // Brand filtering is currently disabled as the product model doesn't include a brand field
+      // TODO: Add brand field to Product model and database schema when needed
       // const brandMatch = filters.brand === 'All' || product.brand === filters.brand;
       const priceMatch = product.price >= filters.priceRange[0] && product.price <= filters.priceRange[1];
       const inStockMatch = !filters.inStock || product.stockQuantity > 0;
@@ -45,7 +46,7 @@ const ProductsPage: React.FC = () => {
         !filters.searchTerm ||
         product.name.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
         product.description.toLowerCase().includes(filters.searchTerm.toLowerCase());
-      return categoryMatch && priceMatch && inStockMatch && searchMatch; // Removed brandMatch for now
+      return categoryMatch && priceMatch && inStockMatch && searchMatch; // Brand filtering disabled
     });
 
     return filtered.sort((a, b) => {
