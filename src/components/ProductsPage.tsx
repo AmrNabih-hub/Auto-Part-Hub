@@ -18,7 +18,7 @@ interface Product {
 
 const ProductsPage: React.FC = () => {
   // Temporarily use hardcoded API URL for testing
-  const { data: products, loading, error } = useFetch<Product[]>('http://localhost:8080/api/products');
+  const { data: products, loading, error } = useFetch<Product[]>('/api/products');
 
   const [filters, setFilters] = useState<FilterState>({
     category: 'All',
