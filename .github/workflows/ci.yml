@@ -20,6 +20,12 @@ jobs:
         uses: docker/setup-buildx-action@v2
       - name: Build backend Docker image
         run: docker compose -f backend/docker-compose.yml build
+      - name: Copy .env.ci to .env
+        run: cp .env.ci .env
+      - name: Generate Laravel application key
+        run: docker compose -f backend/docker-compose.yml run --rm app php artisan key:generate
+      - name: Set directory permissions
+        run: docker compose -f backend/docker-compose.yml run --rm app chmod -R 775 storage bootstrap/cache
       - name: Run migrations
         run: docker compose -f backend/docker-compose.yml run --rm app php artisan migrate:fresh --seed
       - name: Run tests
