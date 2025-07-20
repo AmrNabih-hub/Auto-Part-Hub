@@ -9,11 +9,12 @@
   }
   
   body {
-    @apply antialiased bg-automotive-light text-automotive-dark;
+    background-color: theme('colors.automotive.light');
+    color: theme('colors.automotive.dark');
   }
   
   html.dark body {
-    @apply bg-automotive-dark text-automotive-neon-blue;
+    @apply bg-automotiveDark text-automotive-neon-blue;
   }
 }
 

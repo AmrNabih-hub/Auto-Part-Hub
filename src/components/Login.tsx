@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import GoogleLoginButton from './GoogleLoginButton';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -15,7 +16,7 @@ const Login: React.FC = () => {
       await login(email, password);
       toast.success('Logged in successfully!');
       navigate('/');
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error(error instanceof Error ? error.message : 'An unknown error occurred');
     }
   };
@@ -57,6 +58,9 @@ const Login: React.FC = () => {
           >
             Login
           </button>
+        </div>
+        <div className="mt-4 text-center">
+          <GoogleLoginButton />
         </div>
       </form>
     </div>

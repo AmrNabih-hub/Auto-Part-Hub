@@ -7,10 +7,16 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Auth\GoogleAuthController;
 
 // Test route
 Route::get('test', function () {
     return response()->json(['message' => 'API is working!']);
+});
+
+// Health check
+Route::get('health', function () {
+    return response()->json(['status' => 'ok']);
 });
 
 // Public routes
@@ -21,6 +27,10 @@ Route::get('products/{product}', [ProductController::class, 'show']);
 Route::post('register', [RegisterController::class, 'register']);
 Route::post('login', [LoginController::class, 'login']);
 Route::post('logout', [LogoutController::class, 'logout'])->middleware('auth:sanctum');
+
+// Google Authentication
+Route::get('auth/google', [GoogleAuthController::class, 'redirectToGoogle']);
+Route::get('auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
 
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {

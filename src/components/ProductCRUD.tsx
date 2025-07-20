@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { fetchProducts, createProduct } from '../api/products';
-import { useAuth } from '../context/AuthContext';
+
+import { Product } from '../types';
 
 const ProductCRUD: React.FC = () => {
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [stock, setStock] = useState('');
-  const { token } = useAuth();
 
   useEffect(() => {
     fetchProducts().then(setProducts);
@@ -36,7 +36,7 @@ const ProductCRUD: React.FC = () => {
         <button type="submit" className="bg-orange-500 text-white px-4 py-2 rounded">Add Product</button>
       </form>
       <ul>
-        {products.map((p: any) => (
+        {products.map((p: Product) => (
           <li key={p.id} className="mb-2">{p.name} - ${p.price} (Stock: {p.stock})</li>
         ))}
       </ul>

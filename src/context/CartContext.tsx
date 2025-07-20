@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
 import toast from 'react-hot-toast';
-import axios from 'axios';
-import { CartItem, Product, CartTotals } from '../types';
+import api from '../api';
+import { CartItem, CartTotals } from '../types';
 import { cartReducer, calculateTotals } from './cartUtils';
 import { useAuth } from './AuthContext';
 
@@ -38,9 +38,9 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
               'x-auth-token': token,
             },
           };
-          const res = await axios.get('/api/cart', config);
+          const res = await api.get('/cart', config);
           dispatch({ type: 'SET_CART', payload: res.data.items });
-        } catch (err) {
+        } catch (err: unknown) {
           console.error('Failed to fetch cart:', err);
           // toast.error('Failed to load cart.');
         }
@@ -65,10 +65,10 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         },
       };
       const body = { productId, quantity };
-      const res = await axios.post('/api/cart', body, config);
+      const res = await api.post('/cart', body, config);
       dispatch({ type: 'SET_CART', payload: res.data.items });
       toast.success(`Item added to cart!`);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to add to cart:', err);
       toast.error(err.response?.data?.message || 'Failed to add to cart.');
     }
@@ -85,10 +85,10 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
           'x-auth-token': token,
         },
       };
-      await axios.delete(`/api/cart/${productId}`, config);
+      await api.delete(`/cart/${productId}`, config);
       dispatch({ type: 'REMOVE_ITEM', payload: productId });
       toast.success(`Item removed from cart!`);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to remove from cart:', err);
       toast.error(err.response?.data?.message || 'Failed to remove from cart.');
     }
@@ -112,12 +112,12 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       };
       const body = { productId, quantity };
       // Assuming addToCart can handle quantity updates by sending the new total quantity
-      const res = await axios.post('/api/cart', body, config);
+      const res = await api.post('/cart', body, config);
       dispatch({ type: 'SET_CART', payload: res.data.items });
       toast.success(`Cart quantity updated!`);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to update quantity:', err);
-      toast.error(axios.isAxiosError(err) ? err.response?.data?.message || 'Failed to update quantity.' : 'Failed to update quantity.');
+      toast.error(err.response?.data?.message || 'Failed to update quantity.');
     }
   };
 
@@ -135,13 +135,13 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         },
       };
       for (const item of state.items) {
-        await axios.delete(`/api/cart/${item._id}`, config);
+        await api.delete(`/cart/${item._id}`, config);
       }
       dispatch({ type: 'CLEAR_CART' });
       toast.success('Cart cleared!');
     } catch (err: unknown) {
       console.error('Failed to clear cart:', err);
-      toast.error(axios.isAxiosError(err) ? err.response?.data?.message || 'Failed to clear cart.' : 'Failed to clear cart.');
+      toast.error(err.response?.data?.message || 'Failed to clear cart.');
     }
   };
 

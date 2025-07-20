@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
+import api from '../api';
 
-const UserCRUD: React.FC = () => {
-  const [users, setUsers] = useState<any[]>([]);
+
+import { User } from '../types';
+
+  const UserCRUD: React.FC = () => {
+  const [users, setUsers] = useState<User[]>([]);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
-  const { token } = useAuth();
+  
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/users').then(res => setUsers(res.data));
+    api.get('/users').then(res => setUsers(res.data));
   }, []);
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res = await axios.post('http://localhost:8080/api/users', {
+    const res = await api.post('/users', {
       name,
       email,
       password,
@@ -40,7 +42,7 @@ const UserCRUD: React.FC = () => {
         <button type="submit" className="bg-orange-500 text-white px-4 py-2 rounded">Add User</button>
       </form>
       <ul>
-        {users.map((u: any) => (
+        {users.map((u: User) => (
           <li key={u.id} className="mb-2">{u.name} - {u.email}</li>
         ))}
       </ul>

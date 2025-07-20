@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 interface UseFetchResult<T> {
   data: T | null;
@@ -16,10 +16,10 @@ const useFetch = <T,>(url: string): UseFetchResult<T> => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get<T>(url);
+        const response = await api.get<T>(url);
         setData(response.data);
       } catch (err) {
-        if (axios.isAxiosError(err)) {
+        if (err.isAxiosError) {
           setError(err.message);
         } else {
           setError('An unexpected error occurred');

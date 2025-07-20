@@ -17,7 +17,7 @@ const Register: React.FC = () => {
       await register(name, email, password, passwordConfirmation);
       toast.success('Registered successfully!');
       navigate('/');
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error(error instanceof Error ? error.message : 'An unknown error occurred');
     }
   };

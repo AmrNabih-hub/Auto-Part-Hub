@@ -27,7 +27,7 @@ const AboutPage: React.FC = () => (
               Founded by a team of passionate automotive enthusiasts, AutoPartHub was born from a desire to create a one-stop-shop for the highest quality car parts. We were tired of the endless search for reliable components and the frustration of dealing with subpar products. Our mission is to provide fellow car lovers, from professional mechanics to weekend DIYers, with a curated selection of parts they can trust.
             </p>
             <p className="text-gray-700 dark:text-gray-300">
-              We believe that every vehicle deserves the best. That's why we've built our catalog by partnering with leading manufacturers and meticulously testing our products to ensure they meet the highest standards of performance and durability.
+              We believe that every vehicle deserves the best. That&apos;s why we&apos;ve built our catalog by partnering with leading manufacturers and meticulously testing our products to ensure they meet the highest standards of performance and durability.
             </p>
           </div>
         </div>
@@ -45,7 +45,7 @@ const AboutPage: React.FC = () => (
           <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
             <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-3">Unmatched Service</h3>
             <p className="text-gray-600 dark:text-gray-400">
-              We're dedicated to providing exceptional customer service. Our knowledgeable team is always ready to help you find the perfect part.
+              We&apos;re dedicated to providing exceptional customer service. Our knowledgeable team is always ready to help you find the perfect part.
             </p>
           </div>
           <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
@@ -60,7 +60,7 @@ const AboutPage: React.FC = () => (
       <div className="text-center bg-blue-600 text-white py-12 px-8 rounded-lg">
         <h2 className="text-3xl font-bold mb-4">Join Our Community</h2>
         <p className="text-lg mb-6 max-w-2xl mx-auto">
-          We're more than just a parts store; we're a community of car enthusiasts. Connect with us and share your passion for all things automotive.
+          We&apos;re more than just a parts store; we&apos;re a community of car enthusiasts. Connect with us and share your passion for all things automotive.
         </p>
         <button className="bg-white text-blue-600 font-bold py-3 px-6 rounded-lg hover:bg-gray-200 transition-colors">
           Explore Products

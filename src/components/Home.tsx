@@ -171,7 +171,7 @@ const Home: React.FC = () => {
                   ))}
                 </div>
                 <p className="text-gray-600 dark:text-gray-300 mb-4 italic">
-                  "{testimonial.comment}"
+                  &quot;{testimonial.comment}&quot;
                 </p>
                 <div>
                   <p className="font-semibold text-gray-900 dark:text-white">

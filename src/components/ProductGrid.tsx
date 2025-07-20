@@ -41,7 +41,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
         >
           <p className="text-xl font-semibold text-gray-700 dark:text-gray-200">No Products Found</p>
           <p className="text-gray-500 dark:text-gray-400 mt-2">
-            Try adjusting your filters to find what you're looking for.
+            Try adjusting your filters to find what you&apos;re looking for.
           </p>
         </motion.div>
       )}

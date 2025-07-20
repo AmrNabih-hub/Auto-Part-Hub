@@ -8,7 +8,7 @@ const ProductList: React.FC = () => {
   }, []);
   return (
     <ul>
-      {products.map((p: any) => (
+      {products.map((p: Product) => (
         <li key={p.id}>{p.name} - ${p.price}</li>
       ))}
     </ul>

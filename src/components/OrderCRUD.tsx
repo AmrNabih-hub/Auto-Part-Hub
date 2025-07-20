@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { useAuth } from '../context/AuthContext';
 
+import { Order } from '../types';
+
 const OrderCRUD: React.FC = () => {
-  const [orders, setOrders] = useState<any[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [total, setTotal] = useState('');
   const [status, setStatus] = useState('pending');
-  const { token, user } = useAuth();
+  const { user } = useAuth();
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/orders').then(res => setOrders(res.data));
+    api.get('/orders').then(res => setOrders(res.data));
   }, []);
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res = await axios.post('http://localhost:8080/api/orders', {
+    const res = await api.post('/orders', {
       user_id: user?.id,
       total: parseFloat(total),
       status,
@@ -37,7 +39,7 @@ const OrderCRUD: React.FC = () => {
         <button type="submit" className="bg-orange-500 text-white px-4 py-2 rounded">Add Order</button>
       </form>
       <ul>
-        {orders.map((o: any) => (
+        {orders.map((o: Order) => (
           <li key={o.id} className="mb-2">Order #{o.id} - ${o.total} ({o.status})</li>
         ))}
       </ul>
