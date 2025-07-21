@@ -34,10 +34,6 @@ jobs:
         working-directory: backend
         run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-scripts
         
-      - name: Generate Laravel application key
-        working-directory: backend
-        run: php artisan key:generate --force
-        
       - name: Set directory permissions
         working-directory: backend
         run: chmod -R 775 storage bootstrap/cache
@@ -64,8 +60,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
           
+      - name: Clear npm cache
+        run: npm cache clean --force
+        
+      - name: Remove node_modules and package-lock
+        run: rm -rf node_modules package-lock.json
+        
       - name: Install dependencies
         run: npm install
         
