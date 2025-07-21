@@ -31,7 +31,7 @@ const ProductDetail: React.FC = () => {
   }
 
   const handleAddToCart = () => {
-    addToCart(product);
+    addToCart(product._id, 1);
     toast.success(`${product.name} added to cart!`);
   };
 

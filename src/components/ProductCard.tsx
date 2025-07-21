@@ -15,11 +15,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
 
   const handleAddToCart = () => {
-    if (quantity > product.stockQuantity) {
+    const stockQuantity = product.stockQuantity || 0;
+    if (quantity > stockQuantity) {
       toast.error('Not enough stock!');
       return;
     }
-    addToCart(product._id, quantity);
+    addToCart(product.id || product._id || '', quantity);
     toast.success(`${quantity} x ${product.name} added to cart!`);
     setQuantity(1);
   };
@@ -46,7 +47,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           loading="lazy"
           className="w-full h-52 object-cover transition-transform duration-300 hover:scale-110"
         />
-        {product.stockQuantity === 0 && (
+        {(product.stockQuantity || 0) === 0 && (
           <div className="absolute top-2 right-2 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md">
             OUT OF STOCK
           </div>
@@ -80,28 +81,28 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <div className="flex items-center justify-between mb-4">
             <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Available:</span>
             <span className={`text-sm font-bold ${
-              product.stockQuantity > 10 
+              (product.stockQuantity || 0) > 10 
                 ? 'text-green-500' 
-                : product.stockQuantity > 0 
+                : (product.stockQuantity || 0) > 0 
                 ? 'text-yellow-500' 
                 : 'text-red-500'
             }`}>
-              {product.stockQuantity} in stock
+              {product.stockQuantity || 0} in stock
             </span>
           </div>
 
           <motion.button
             onClick={handleAddToCart}
-            disabled={product.stockQuantity === 0}
+            disabled={(product.stockQuantity || 0) === 0}
             className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-bold text-lg transition-all duration-300 shadow-lg ${
-              product.stockQuantity > 0
+              (product.stockQuantity || 0) > 0
                 ? 'bg-automotive-orange hover:bg-orange-600 text-white transform hover:-translate-y-1'
                 : 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
             }`}
-            whileTap={product.stockQuantity > 0 ? { scale: 0.97 } : {}}
+            whileTap={(product.stockQuantity || 0) > 0 ? { scale: 0.97 } : {}}
           >
             <FaShoppingCart className="text-md" />
-            {product.stockQuantity > 0 ? `Add to Cart` : 'Out of Stock'}
+            {(product.stockQuantity || 0) > 0 ? `Add to Cart` : 'Out of Stock'}
           </motion.button>
         </div>
       </div>

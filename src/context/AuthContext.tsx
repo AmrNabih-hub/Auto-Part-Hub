@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import api from '../api';
+import { User } from '../types';
 
 interface AuthContextType {
   user: User | null;
@@ -24,37 +25,37 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [token]);
 
-  const login = async (email, password) => {
+  const login = async (email: string, password: string) => {
     try {
       const res = await api.post('/login', { email, password });
       setToken(res.data.access_token);
       localStorage.setItem('token', res.data.access_token);
       setUser(res.data.user);
       api.defaults.headers.common['Authorization'] = `Bearer ${res.data.access_token}`;
-    } catch (err: unknown) {
+    } catch (err: any) {
       throw new Error(err.response?.data?.message || 'Login failed');
     }
   };
 
-  const register = async (name, email, password, password_confirmation = password) => {
+  const register = async (name: string, email: string, password: string, password_confirmation = password) => {
     try {
       const res = await api.post('/register', { name, email, password, password_confirmation });
       setToken(res.data.access_token);
       localStorage.setItem('token', res.data.access_token);
       setUser(res.data.user);
       api.defaults.headers.common['Authorization'] = `Bearer ${res.data.access_token}`;
-    } catch (err: unknown) {
+    } catch (err: any) {
       throw new Error(err.response?.data?.message || 'Registration failed');
     }
   };
 
-  const becomeVendor = async (name, email, password, companyName) => {
+  const becomeVendor = async (name: string, email: string, password: string, companyName: string) => {
     try {
       const res = await api.post('/auth/become-vendor', { name, email, password, companyName });
       setToken(res.data.token);
       localStorage.setItem('token', res.data.token);
       setUser(res.data);
-    } catch (err: unknown) {
+    } catch (err: any) {
       throw new Error(err.response?.data?.message || 'Vendor registration failed');
     }
   };

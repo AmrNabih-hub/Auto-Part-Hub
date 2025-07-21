@@ -61,7 +61,7 @@ const CartPage: React.FC = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     <button
-                      onClick={() => handleQuantityChange(item._id, item.quantity - 1)}
+                      onClick={() => handleQuantityChange(item.id || item._id || '', item.quantity - 1)}
                       className="p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded disabled:opacity-50 disabled:cursor-not-allowed"
                       disabled={item.quantity <= 1}
                       title={item.quantity <= 1 ? 'Minimum quantity is 1' : ''}
@@ -72,7 +72,7 @@ const CartPage: React.FC = () => {
                       {item.quantity}
                     </span>
                     <button
-                      onClick={() => handleQuantityChange(item._id, item.quantity + 1)}
+                      onClick={() => handleQuantityChange(item.id || item._id || '', item.quantity + 1)}
                       className="p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded disabled:opacity-50 disabled:cursor-not-allowed"
                       disabled={false}
                       title={''}
@@ -80,7 +80,7 @@ const CartPage: React.FC = () => {
                       <FaPlus className="text-xs" />
                     </button>
                     <button
-                      onClick={() => removeFromCart(item._id)}
+                      onClick={() => removeFromCart(item.id || item._id || '')}
                       className="p-1 text-red-500 hover:bg-red-100 dark:hover:bg-red-900 rounded"
                     >
                       <FaTrash className="text-xs" />

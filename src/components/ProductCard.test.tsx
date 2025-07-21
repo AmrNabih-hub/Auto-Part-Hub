@@ -21,7 +21,7 @@ vi.mock('react-hot-toast', () => {
 
 // Mock react-router-dom's Link component to prevent actual navigation
 vi.mock('react-router-dom', async (importOriginal) => {
-  const actual = await importOriginal();
+  const actual = await importOriginal() as any;
   return {
     ...actual,
     Link: vi.fn().mockImplementation(({ children, to }) => <a href={to}>{children}</a>),
@@ -42,6 +42,7 @@ vi.mock('../context/CartContext', () => ({
 
 describe('ProductCard Component', () => {
   const mockProduct: Product = {
+    id: '1',
     _id: '1',
     name: 'Test Product',
     sku: 'TP001',

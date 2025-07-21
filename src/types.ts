@@ -26,6 +26,7 @@ interface Product {
   price: number;
   category: string;
   imageUrl: string;
+  image?: string; // For backward compatibility
   stockQuantity?: number;
   stock?: number;
   vendor?: string;
@@ -36,15 +37,21 @@ interface Product {
 }
 
 interface CartItem {
-  _id: string;
+  id: string;
+  _id?: string;
   productId: string;
   quantity: number;
-  product: Product;
+  product?: Product;
+  image?: string;
+  imageUrl?: string;
+  name: string;
+  price: number;
 }
 
 interface CartTotals {
   subtotal: number;
   tax: number;
+  shipping: number;
   total: number;
 }
 

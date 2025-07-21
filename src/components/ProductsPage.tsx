@@ -35,7 +35,13 @@ const ProductsPage: React.FC = () => {
   const filteredAndSortedProducts = useMemo(() => {
     if (!products) return [];
 
-    const filtered = products.filter((product) => {
+    // Transform products to include id field for compatibility
+    const transformedProducts = products.map(product => ({
+      ...product,
+      id: product._id
+    }));
+
+    const filtered = transformedProducts.filter((product) => {
       const categoryMatch = filters.category === 'All' || product.category === filters.category;
       // Brand filtering is currently disabled as the product model doesn't include a brand field
       // TODO: Add brand field to Product model and database schema when needed
@@ -98,7 +104,7 @@ const ProductsPage: React.FC = () => {
         </motion.div>
         <div className="flex flex-col lg:flex-row gap-8">
           <aside className="lg:w-1/4">
-            <Filters onFilterChange={setFilters} products={products || []} />
+            <Filters onFilterChange={setFilters} products={products?.map(p => ({ ...p, id: p._id })) || []} />
           </aside>
           <div className="lg:w-3/4">
             {/* Sort and Results Header */}

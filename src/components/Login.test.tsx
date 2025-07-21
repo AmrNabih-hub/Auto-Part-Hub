@@ -19,7 +19,7 @@ vi.mock('../context/AuthContext', () => ({
 // Mock react-router-dom's useNavigate
 const mockedUseNavigate = vi.fn();
 vi.mock('react-router-dom', async (importOriginal) => {
-  const actual = await importOriginal();
+  const actual = await importOriginal() as any;
   return {
     ...actual,
     useNavigate: () => mockedUseNavigate,
@@ -49,7 +49,7 @@ describe('Login Component', () => {
   beforeEach(() => {
     mockAuthContext.login.mockClear();
     mockedUseNavigate.mockClear();
-    toast.error.mockClear();
+    (toast.error as any).mockClear();
   });
 
   const renderComponent = () => {

@@ -18,7 +18,7 @@ const useFetch = <T,>(url: string): UseFetchResult<T> => {
         setLoading(true);
         const response = await api.get<T>(url);
         setData(response.data);
-      } catch (err) {
+      } catch (err: any) {
         if (err.isAxiosError) {
           setError(err.message);
         } else {

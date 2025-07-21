@@ -9,6 +9,7 @@ interface CartContextType {
   items: CartItem[];
   addToCart: (productId: string, quantity: number) => void;
   removeFromCart: (productId: string) => void;
+  removeItem: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
   totals: CartTotals;
@@ -68,7 +69,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       const res = await api.post('/cart', body, config);
       dispatch({ type: 'SET_CART', payload: res.data.items });
       toast.success(`Item added to cart!`);
-    } catch (err: unknown) {
+    } catch (err: any) {
       console.error('Failed to add to cart:', err);
       toast.error(err.response?.data?.message || 'Failed to add to cart.');
     }
@@ -88,7 +89,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       await api.delete(`/cart/${productId}`, config);
       dispatch({ type: 'REMOVE_ITEM', payload: productId });
       toast.success(`Item removed from cart!`);
-    } catch (err: unknown) {
+    } catch (err: any) {
       console.error('Failed to remove from cart:', err);
       toast.error(err.response?.data?.message || 'Failed to remove from cart.');
     }
@@ -115,7 +116,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       const res = await api.post('/cart', body, config);
       dispatch({ type: 'SET_CART', payload: res.data.items });
       toast.success(`Cart quantity updated!`);
-    } catch (err: unknown) {
+    } catch (err: any) {
       console.error('Failed to update quantity:', err);
       toast.error(err.response?.data?.message || 'Failed to update quantity.');
     }
@@ -139,7 +140,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       }
       dispatch({ type: 'CLEAR_CART' });
       toast.success('Cart cleared!');
-    } catch (err: unknown) {
+    } catch (err: any) {
       console.error('Failed to clear cart:', err);
       toast.error(err.response?.data?.message || 'Failed to clear cart.');
     }
@@ -154,6 +155,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     items: state.items,
     addToCart,
     removeFromCart,
+    removeItem: removeFromCart, // Alias for removeFromCart
     updateQuantity,
     clearCart,
     totals,
