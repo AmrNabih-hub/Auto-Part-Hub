@@ -17,23 +17,34 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
-          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, iconv, json, mbstring, pdo
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, json, pdo, bcmath, zip
           coverage: none
+          
+      - name: Verify PHP installation
+        run: php --version
           
       - name: Copy testing environment file
         run: cp backend/.env.testing backend/.env
+        
+      - name: Verify environment file
+        working-directory: backend
+        run: cat .env
           
       - name: Install Composer dependencies
         working-directory: backend
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-scripts
         
       - name: Generate Laravel application key
         working-directory: backend
-        run: php artisan key:generate
+        run: php artisan key:generate --force
         
       - name: Set directory permissions
         working-directory: backend
         run: chmod -R 775 storage bootstrap/cache
+        
+      - name: Clear config cache
+        working-directory: backend
+        run: php artisan config:clear
         
       - name: Run migrations
         working-directory: backend
@@ -41,7 +52,7 @@ jobs:
         
       - name: Run tests
         working-directory: backend
-        run: php artisan test
+        run: php artisan test --verbose
 
   frontend-tests:
     runs-on: ubuntu-latest
