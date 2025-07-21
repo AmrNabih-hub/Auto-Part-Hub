@@ -18,9 +18,11 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->api(prepend: [
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            \App\Http\Middleware\AdminMiddleware::class,
-            \App\Http\Middleware\VendorMiddleware::class,
-            \App\Http\Middleware\SecurityHeaders::class,
+        ]);
+        
+        $middleware->alias([
+            'admin' => \App\Http\Middleware\AdminMiddleware::class,
+            'vendor' => \App\Http\Middleware\VendorMiddleware::class,
         ]);
     })
 

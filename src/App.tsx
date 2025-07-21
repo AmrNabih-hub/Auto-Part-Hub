@@ -1,12 +1,13 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
-import Header from './components/Header';
 import { Toaster } from 'react-hot-toast';
-import Footer from './components/Footer';
 import { useAuth } from './context/AuthContext';
+import LoadingSpinner from './components/LoadingSpinner';
 
 // Lazy-loaded components
+const Header = React.lazy(() => import('./components/Header'));
+const Footer = React.lazy(() => import('./components/Footer'));
 const Home = React.lazy(() => import('./components/Home'));
 const ProductsPage = React.lazy(() => import('./components/ProductsPage'));
 const AboutPage = React.lazy(() => import('./components/AboutPage'));
@@ -39,9 +40,11 @@ const App: React.FC = () => {
               },
             }}
           />
-          <Header />
+          <Suspense fallback={<LoadingSpinner />}>
+            <Header />
+          </Suspense>
           <main className="flex-grow">
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<LoadingSpinner />}>
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/products" element={<ProductsPage />} />
@@ -62,7 +65,9 @@ const App: React.FC = () => {
               </Routes>
             </Suspense>
           </main>
-          <Footer />
+          <Suspense fallback={<LoadingSpinner />}>
+            <Footer />
+          </Suspense>
         </div>
       </Router>
     </CartProvider>

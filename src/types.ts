@@ -1,9 +1,10 @@
 interface User {
-  _id: string;
+  id: string;
+  _id?: string;
   name: string;
   email: string;
   role: string;
-  token: string;
+  token?: string;
   companyName?: string;
 }
 
@@ -17,18 +18,43 @@ interface Order {
 }
 
 interface Product {
-  _id: string;
+  id: string;
+  _id?: string;
   name: string;
-  sku: string;
+  sku?: string;
   description: string;
   price: number;
   category: string;
   imageUrl: string;
-  stockQuantity: number;
-  vendor: string;
-  status: string;
-  createdAt: string;
-  updatedAt: string;
+  stockQuantity?: number;
+  stock?: number;
+  vendor?: string;
+  status?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  brand?: string;
 }
 
-export type { User, Order, Product };
+interface CartItem {
+  _id: string;
+  productId: string;
+  quantity: number;
+  product: Product;
+}
+
+interface CartTotals {
+  subtotal: number;
+  tax: number;
+  total: number;
+}
+
+interface CartState {
+  items: CartItem[];
+}
+
+interface CartAction {
+  type: 'SET_CART' | 'ADD_ITEM' | 'REMOVE_ITEM' | 'UPDATE_QUANTITY' | 'CLEAR_CART';
+  payload?: any;
+}
+
+export type { User, Order, Product, CartItem, CartTotals, CartState, CartAction };
