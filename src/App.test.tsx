@@ -10,8 +10,8 @@ describe('App', () => {
         <App />
       </AuthProvider>
     );
-    // You'll need to adjust this assertion based on what your App component renders
-    // For example, if it renders a Header component, you might look for text in the header.
-    expect(screen.getByRole('heading', { name: /AutoPartHub/i })).toBeInTheDocument();
+    // Check for the main element and loading states
+    expect(screen.getByRole('main')).toBeInTheDocument();
+    expect(screen.getAllByText('Loading...')).toHaveLength(3); // Header, Main, Footer
   });
 });
