@@ -3,11 +3,8 @@ npm-debug.log
 .git
 .gitignore
 README.md
-.env
 .nyc_output
 coverage
-.nyc_output
-.coverage
 .coverage/
 .vscode
 .idea
@@ -15,8 +12,11 @@ coverage
 tests/
 .phpunit.result.cache
 storage/logs/*
-storage/framework/cache/*
+storage/framework/cache/data/*
 storage/framework/sessions/*
 storage/framework/views/*
 vendor/
 .env.example
+docker-compose.yml
+Dockerfile
+.dockerignore

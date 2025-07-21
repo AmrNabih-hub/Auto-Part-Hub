@@ -7,6 +7,7 @@ RUN apk add --no-cache \
     supervisor \
     bash \
     curl \
+    netcat-openbsd \
     libpng-dev \
     libjpeg-turbo-dev \
     freetype-dev \
@@ -41,55 +42,57 @@ COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www
 
 # Copy composer files first for better caching
-COPY composer.json ./
-COPY composer.lock ./
+COPY composer.json composer.lock ./
+
+# Copy artisan file and bootstrap directory (needed for composer scripts)
+COPY artisan ./
+COPY bootstrap/ ./bootstrap/
+
+# Create basic directory structure that Laravel expects
+RUN mkdir -p app config database public resources routes storage \
+    && mkdir -p storage/app storage/framework storage/logs \
+    && mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views \
+    && mkdir -p bootstrap/cache
 
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 
-# Copy application code
+# Copy the rest of the application
 COPY . .
 
-# Generate application key and optimize
-RUN php artisan key:generate --force \
-    && php artisan config:cache \
-    && php artisan route:cache \
-    && php artisan view:cache
+# Ensure artisan is executable
+RUN chmod +x artisan
 
-# Set permissions
+# Copy and make entrypoint script executable
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+# Set proper permissions
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 755 /var/www/storage \
-    && chmod -R 755 /var/www/bootstrap/cache
-
-# Create necessary directories
-RUN mkdir -p /var/www/storage/logs \
-    && mkdir -p /var/www/storage/framework/cache \
-    && mkdir -p /var/www/storage/framework/sessions \
-    && mkdir -p /var/www/storage/framework/views
+    && chmod -R 755 /var/www/bootstrap/cache \
+    && chmod -R 775 /var/www/storage
 
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy supervisor configuration
-RUN echo '[supervisord]' > /etc/supervisor/conf.d/supervisord.conf \
-    && echo 'nodaemon=true' >> /etc/supervisor/conf.d/supervisord.conf \
-    && echo '' >> /etc/supervisor/conf.d/supervisord.conf \
-    && echo '[program:nginx]' >> /etc/supervisor/conf.d/supervisord.conf \
-    && echo 'command=nginx -g "daemon off;"' >> /etc/supervisor/conf.d/supervisord.conf \
-    && echo 'autostart=true' >> /etc/supervisor/conf.d/supervisord.conf \
-    && echo 'autorestart=true' >> /etc/supervisor/conf.d/supervisord.conf \
-    && echo 'stderr_logfile=/var/log/nginx.err.log' >> /etc/supervisor/conf.d/supervisord.conf \
-    && echo 'stdout_logfile=/var/log/nginx.out.log' >> /etc/supervisor/conf.d/supervisord.conf \
-    && echo '' >> /etc/supervisor/conf.d/supervisord.conf \
-    && echo '[program:php-fpm]' >> /etc/supervisor/conf.d/supervisord.conf \
-    && echo 'command=php-fpm' >> /etc/supervisor/conf.d/supervisord.conf \
-    && echo 'autostart=true' >> /etc/supervisor/conf.d/supervisord.conf \
-    && echo 'autorestart=true' >> /etc/supervisor/conf.d/supervisord.conf \
-    && echo 'stderr_logfile=/var/log/php-fpm.err.log' >> /etc/supervisor/conf.d/supervisord.conf \
-    && echo 'stdout_logfile=/var/log/php-fpm.out.log' >> /etc/supervisor/conf.d/supervisord.conf
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Create log directories
+RUN mkdir -p /var/log/supervisor /var/log/nginx \
+    && touch /var/log/nginx/access.log \
+    && touch /var/log/nginx/error.log
 
 # Expose port
 EXPOSE 80
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost/api/health || exit 1
+
+# Set entrypoint
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 
 # Start supervisor
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
