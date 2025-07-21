@@ -44,20 +44,31 @@ WORKDIR /var/www
 # Copy composer files first for better caching
 COPY composer.json composer.lock ./
 
-# Copy artisan file and bootstrap directory (needed for composer scripts)
-COPY artisan ./
-COPY bootstrap/ ./bootstrap/
-
-# Create basic directory structure that Laravel expects
-RUN mkdir -p app config database public resources routes storage \
+# Create basic Laravel directory structure
+RUN mkdir -p app bootstrap config database public resources routes storage tests \
     && mkdir -p storage/app storage/framework storage/logs \
     && mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views \
     && mkdir -p bootstrap/cache
 
-# Install PHP dependencies
+# Copy essential Laravel files needed for composer scripts
+COPY artisan ./
+COPY bootstrap/ ./bootstrap/
+COPY routes/ ./routes/
+COPY config/ ./config/
+COPY app/ ./app/
+COPY database/ ./database/
+
+# Create a minimal .env file for composer scripts
+RUN echo "APP_NAME=Laravel" > .env \
+    && echo "APP_ENV=production" >> .env \
+    && echo "APP_KEY=" >> .env \
+    && echo "APP_DEBUG=false" >> .env \
+    && echo "APP_URL=http://localhost" >> .env
+
+# Install PHP dependencies with scripts (now that all files are in place)
 RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 
-# Copy the rest of the application
+# Copy the rest of the application (this will overwrite the minimal .env)
 COPY . .
 
 # Ensure artisan is executable
