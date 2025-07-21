@@ -37,8 +37,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('products', [ProductController::class, 'store']);
     Route::put('products/{product}', [ProductController::class, 'update']);
     Route::delete('products/{product}', [ProductController::class, 'destroy']);
-    Route::apiResource('users', UserController::class);
     Route::apiResource('orders', OrderController::class);
+});
+
+// Admin-only routes
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+    Route::apiResource('users', UserController::class);
 });
 
 // Admin-only route example
