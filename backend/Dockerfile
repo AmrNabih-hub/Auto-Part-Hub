@@ -55,11 +55,26 @@ RUN if [ ! -f .env ]; then \
         echo "APP_ENV=production" >> .env && \
         echo "APP_KEY=" >> .env && \
         echo "APP_DEBUG=false" >> .env && \
-        echo "APP_URL=http://localhost" >> .env; \
+        echo "APP_URL=http://localhost" >> .env && \
+        echo "LOG_CHANNEL=stack" >> .env && \
+        echo "DB_CONNECTION=sqlite" >> .env && \
+        echo "DB_DATABASE=/tmp/database.sqlite" >> .env && \
+        echo "CACHE_STORE=array" >> .env && \
+        echo "SESSION_DRIVER=array" >> .env && \
+        echo "QUEUE_CONNECTION=sync" >> .env; \
     fi
 
-# Install PHP dependencies with scripts (now that all files are in place)
-RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
+# Create a temporary SQLite database for build process
+RUN touch /tmp/database.sqlite
+
+# Install PHP dependencies without scripts first, then run scripts separately
+RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-scripts
+
+# Generate application key if needed
+RUN php artisan key:generate --force --no-interaction || true
+
+# Run composer scripts now that Laravel is properly set up
+RUN composer dump-autoload --optimize --no-dev
 
 # Ensure artisan is executable
 RUN chmod +x artisan
