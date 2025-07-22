@@ -72,16 +72,15 @@ RUN if [ ! -f .env ]; then \
 RUN touch /tmp/database.sqlite
 
 # Install PHP dependencies with robust error handling
-RUN composer validate --no-check-publish || echo "Composer validation warnings ignored" \
-    && composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-scripts \
-    || composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-scripts --ignore-platform-reqs \
-    || (echo "Composer install failed, trying minimal install" && composer install --no-dev --no-interaction --no-scripts)
+RUN composer clear-cache && \
+    composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-scripts
 
 # Generate application key if needed
-RUN php artisan key:generate --force --no-interaction || echo "Key generation skipped"
+# Generate application key if needed
+# RUN php artisan key:generate --force --no-interaction || echo "Key generation skipped"
 
 # Run composer scripts now that Laravel is properly set up
-RUN composer dump-autoload --optimize --no-dev || echo "Autoload dump completed with warnings"
+RUN composer dump-autoload --no-dev || echo "Autoload dump completed with warnings"
 
 # Ensure artisan is executable
 RUN chmod +x artisan
