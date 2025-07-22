@@ -41,35 +41,25 @@ COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www
 
-# Copy composer files first for better caching
-COPY composer.json composer.lock ./
+# Copy all application files at once
+COPY . .
 
-# Create basic Laravel directory structure
-RUN mkdir -p app bootstrap config database public resources routes storage tests \
-    && mkdir -p storage/app storage/framework storage/logs \
+# Create basic Laravel directory structure if not exists
+RUN mkdir -p storage/app storage/framework storage/logs \
     && mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views \
     && mkdir -p bootstrap/cache
 
-# Copy essential Laravel files needed for composer scripts
-COPY artisan ./
-COPY bootstrap/ ./bootstrap/
-COPY routes/ ./routes/
-COPY config/ ./config/
-COPY app/ ./app/
-COPY database/ ./database/
-
-# Create a minimal .env file for composer scripts
-RUN echo "APP_NAME=Laravel" > .env \
-    && echo "APP_ENV=production" >> .env \
-    && echo "APP_KEY=" >> .env \
-    && echo "APP_DEBUG=false" >> .env \
-    && echo "APP_URL=http://localhost" >> .env
+# Create a minimal .env file for composer scripts if not exists
+RUN if [ ! -f .env ]; then \
+        echo "APP_NAME=Laravel" > .env && \
+        echo "APP_ENV=production" >> .env && \
+        echo "APP_KEY=" >> .env && \
+        echo "APP_DEBUG=false" >> .env && \
+        echo "APP_URL=http://localhost" >> .env; \
+    fi
 
 # Install PHP dependencies with scripts (now that all files are in place)
 RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
-
-# Copy the rest of the application (this will overwrite the minimal .env)
-COPY . .
 
 # Ensure artisan is executable
 RUN chmod +x artisan
