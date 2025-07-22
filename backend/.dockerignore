@@ -9,7 +9,6 @@ coverage
 .vscode
 .idea
 *.log
-tests/
 .phpunit.result.cache
 storage/logs/*
 storage/framework/cache/data/*
@@ -18,5 +17,3 @@ storage/framework/views/*
 vendor/
 .env.example
 docker-compose.yml
-Dockerfile
-.dockerignore

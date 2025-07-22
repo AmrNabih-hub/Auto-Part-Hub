@@ -74,21 +74,20 @@ COPY . .
 # Ensure artisan is executable
 RUN chmod +x artisan
 
-# Copy and make entrypoint script executable
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+# Copy and make entrypoint script executable (file should now be available from COPY . .)
+RUN chmod +x docker-entrypoint.sh \
+    && cp docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh \
+    && chmod +x /usr/local/bin/docker-entrypoint.sh
+
+# Copy nginx and supervisor configurations (files should now be available from COPY . .)
+RUN cp nginx.conf /etc/nginx/nginx.conf \
+    && cp supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Set proper permissions
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 755 /var/www/storage \
     && chmod -R 755 /var/www/bootstrap/cache \
     && chmod -R 775 /var/www/storage
-
-# Copy nginx configuration
-COPY nginx.conf /etc/nginx/nginx.conf
-
-# Copy supervisor configuration
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Create log directories
 RUN mkdir -p /var/log/supervisor /var/log/nginx \
