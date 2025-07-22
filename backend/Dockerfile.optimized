@@ -1,5 +1,35 @@
-# Use PHP 8.3 FPM Alpine as base image
-FROM php:8.3-fpm-alpine
+# Multi-stage build for better dependency management
+# Stage 1: Composer dependencies
+FROM composer:2.7 AS composer-stage
+
+# Set composer environment variables
+ENV COMPOSER_MEMORY_LIMIT=-1
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
+WORKDIR /app
+
+# Copy composer files first for better caching
+COPY composer.json composer.json
+COPY composer.lock* ./
+
+# Install dependencies without scripts first
+RUN composer validate --no-check-publish && \
+    composer install \
+        --no-dev \
+        --no-scripts \
+        --no-autoloader \
+        --no-interaction \
+        --prefer-dist \
+        --ignore-platform-reqs
+
+# Copy application code
+COPY . .
+
+# Generate optimized autoloader
+RUN composer dump-autoload --no-dev --optimize
+
+# Stage 2: Production image
+FROM php:8.3-fpm-alpine AS production
 
 # Install system dependencies
 RUN apk add --no-cache \
@@ -35,25 +65,18 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
         intl \
         zip
 
-# Install Composer
-COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
-
-# Set composer environment variables
-ENV COMPOSER_MEMORY_LIMIT=-1
-ENV COMPOSER_ALLOW_SUPERUSER=1
-
 # Set working directory
 WORKDIR /var/www
 
-# Copy all application files at once
-COPY . .
+# Copy application from composer stage
+COPY --from=composer-stage /app /var/www
 
-# Create basic Laravel directory structure if not exists
+# Create basic Laravel directory structure
 RUN mkdir -p storage/app storage/framework storage/logs \
     && mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views \
     && mkdir -p bootstrap/cache
 
-# Create a minimal .env file for composer scripts if not exists
+# Create a minimal .env file for production
 RUN if [ ! -f .env ]; then \
         echo "APP_NAME=Laravel" > .env && \
         echo "APP_ENV=production" >> .env && \
@@ -68,22 +91,8 @@ RUN if [ ! -f .env ]; then \
         echo "QUEUE_CONNECTION=sync" >> .env; \
     fi
 
-# Create a temporary SQLite database for build process
+# Create a temporary SQLite database
 RUN touch /tmp/database.sqlite
-
-# Install PHP dependencies with robust error handling
-RUN composer clear-cache && \
-    composer validate --no-check-publish && \
-    composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-scripts --no-plugins || \
-    (echo "Composer install failed, trying with verbose output:" && \
-     composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-scripts --no-plugins --verbose)
-
-# Generate application key if needed
-# Generate application key if needed
-# RUN php artisan key:generate --force --no-interaction || echo "Key generation skipped"
-
-# Run composer scripts now that Laravel is properly set up
-RUN composer dump-autoload --no-dev || echo "Autoload dump completed with warnings"
 
 # Ensure artisan is executable
 RUN chmod +x artisan
