@@ -131,7 +131,7 @@ const Cart: React.FC = () => {
                         <FaPlus className="text-xs" />
                       </button>
                       <button
-                        onClick={() => removeItem(item.id)}
+                        onClick={() => removeFromCart(item.id)}
                         className="p-1 text-red-500 hover:bg-red-100 dark:hover:bg-red-900 rounded"
                       >
                         <FaTrash className="text-xs" />

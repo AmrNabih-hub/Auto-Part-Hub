@@ -14,7 +14,7 @@ const Register: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await register(name, email, password, passwordConfirmation);
+      await register(name, email, password);
       toast.success('Registered successfully!');
       navigate('/');
     } catch (error: unknown) {

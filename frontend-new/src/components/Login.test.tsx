@@ -1,5 +1,4 @@
 
-import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -22,7 +21,7 @@ const mockedUseNavigate = vi.fn();
 vi.mock('react-router-dom', async (importOriginal) => {
   const actual = await importOriginal();
   return {
-    ...actual,
+    ...(actual as object),
     useNavigate: () => mockedUseNavigate,
   };
 });
@@ -50,7 +49,7 @@ describe('Login Component', () => {
   beforeEach(() => {
     mockAuthContext.login.mockClear();
     mockedUseNavigate.mockClear();
-    toast.error.mockClear();
+    (toast.error as any).mockClear?.();
   });
 
   const renderComponent = () => {

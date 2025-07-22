@@ -1,20 +1,13 @@
+import type { Product } from '../types';
 import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import ProductGrid from './ProductGrid';
-import Filters, { FilterState } from './Filters';
+import Filters from './Filters';
+import { type FilterState } from '../types';
 import { FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
 import useFetch from '../hooks/useFetch.tsx';
 
-interface Product {
-  _id: string;
-  name: string;
-  description: string;
-  price: number;
-  category: string;
-  imageUrl: string;
-  stockQuantity: number;
-  // Add other fields as per your backend Product model
-}
+
 
 const ProductsPage: React.FC = () => {
   // Temporarily use hardcoded API URL for testing
@@ -41,7 +34,7 @@ const ProductsPage: React.FC = () => {
       // TODO: Add brand field to Product model and database schema when needed
       // const brandMatch = filters.brand === 'All' || product.brand === filters.brand;
       const priceMatch = product.price >= filters.priceRange[0] && product.price <= filters.priceRange[1];
-      const inStockMatch = !filters.inStock || product.stockQuantity > 0;
+      const inStockMatch = !filters.inStock || (product.stockQuantity ?? 0) > 0;
       const searchMatch =
         !filters.searchTerm ||
         product.name.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||

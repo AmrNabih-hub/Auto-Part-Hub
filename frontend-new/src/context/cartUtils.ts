@@ -5,7 +5,7 @@ export const cartReducer = (state: CartState, action: CartAction): CartState => 
     case 'REMOVE_ITEM':
       return {
         ...state,
-        items: state.items.filter(item => item._id !== action.payload)
+        items: state.items.filter(item => item.id !== action.payload)
       };
     case 'CLEAR_CART':
       return {
@@ -23,7 +23,7 @@ export const cartReducer = (state: CartState, action: CartAction): CartState => 
 };
 
 export const calculateTotals = (items: CartItem[]): CartTotals => {
-  const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const subtotal = items.reduce((sum, item: CartItem) => sum + (item.price * item.quantity), 0);
   const tax = subtotal * 0.07;
   const shipping = subtotal > 500 ? 0 : 8.99;
   const total = subtotal + tax + shipping;

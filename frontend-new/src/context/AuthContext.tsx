@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import type { User } from '../types';
 
 interface AuthContextType {
   user: User | null;
@@ -24,7 +25,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [token]);
 
-  const login = async (email, password) => {
+  const login = async (email: string, password: string) => {
     try {
       // Get CSRF cookie for Sanctum
       await axios.get('http://localhost:8080/sanctum/csrf-cookie', { withCredentials: true });
@@ -39,7 +40,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const register = async (name, email, password, password_confirmation = password) => {
+  const register = async (name: string, email: string, password: string, password_confirmation = password) => {
     try {
       // Get CSRF cookie for Sanctum
       await axios.get('http://localhost:8080/sanctum/csrf-cookie', { withCredentials: true });
@@ -49,11 +50,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser(res.data.user);
       axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.access_token}`;
     } catch (err: unknown) {
-      throw new Error(err.response?.data?.message || 'Registration failed');
+      throw new Error(axios.isAxiosError(err) ? err.response?.data?.message || 'Registration failed' : 'Registration failed');
     }
   };
 
-  const becomeVendor = async (name, email, password, companyName) => {
+  const becomeVendor = async (name: string, email: string, password: string, companyName: string) => {
     try {
       const res = await axios.post('/api/auth/become-vendor', { name, email, password, companyName });
       setToken(res.data.token);
@@ -71,7 +72,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         withCredentials: true,
       });
     } catch (err: unknown) {
-      console.error('Logout error:', err);
+      console.error('Logout error:', err instanceof Error ? err.message : err);
     }
     setToken(null);
     setUser(null);

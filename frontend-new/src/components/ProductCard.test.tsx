@@ -1,10 +1,9 @@
 
-import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { BrowserRouter as Router } from 'react-router-dom';
 import ProductCard from './ProductCard';
-import { Product } from '../types';
+import type { Product } from '../types';
 import toast from 'react-hot-toast';
 
 // Mock toast for notifications
@@ -24,7 +23,7 @@ vi.mock('react-hot-toast', () => {
 vi.mock('react-router-dom', async (importOriginal) => {
   const actual = await importOriginal();
   return {
-    ...actual,
+    ...(actual as object),
     Link: vi.fn().mockImplementation(({ children, to }) => <a href={to}>{children}</a>),
   };
 });
@@ -43,15 +42,17 @@ vi.mock('../context/CartContext', () => ({
 
 describe('ProductCard Component', () => {
   const mockProduct: Product = {
-    _id: '1',
+    id: '1',
     name: 'Test Product',
-    sku: 'TP001',
-    description: 'This is a test product description.',
-    price: 25.00,
-    category: 'Electronics',
+    price: 10,
     imageUrl: 'http://example.com/test.jpg',
-    stockQuantity: 10,
+    description: 'A test product',
+    category: 'Test Category',
     vendor: 'Test Vendor',
+    brand: 'Test Brand',
+    inStock: true,
+    quantity: 10,
+    stockQuantity: 10,
     status: 'Approved',
     createdAt: '2023-01-01T00:00:00.000Z',
     updatedAt: '2023-01-01T00:00:00.000Z',
@@ -86,7 +87,7 @@ describe('ProductCard Component', () => {
 
     await waitFor(() => {
       expect(mockAddToCart).toHaveBeenCalledTimes(1);
-      expect(mockAddToCart).toHaveBeenCalledWith(mockProduct._id, 1);
+      expect(mockAddToCart).toHaveBeenCalledWith(mockProduct.id, 1);
       expect(toast.success).toHaveBeenCalledWith('1 x Test Product added to cart!');
     });
   });
@@ -104,6 +105,6 @@ describe('ProductCard Component', () => {
   it('navigates to product detail page on image click', () => {
     renderProductCard();
     const productLink = screen.getByRole('link', { name: mockProduct.name });
-    expect(productLink).toHaveAttribute('href', `/products/${mockProduct._id}`);
+    expect(productLink).toHaveAttribute('href', `/products/${mockProduct.id}`);
   });
 });

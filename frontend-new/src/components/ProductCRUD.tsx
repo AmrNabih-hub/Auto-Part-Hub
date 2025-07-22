@@ -37,7 +37,7 @@ const ProductCRUD: React.FC = () => {
       </form>
       <ul>
         {products.map((p: Product) => (
-          <li key={p.id} className="mb-2">{p.name} - ${p.price} (Stock: {p.stock})</li>
+          <li key={p.id} className="mb-2">{p.name} - ${p.price} (Stock: {p.stockQuantity})</li>
         ))}
       </ul>
     </div>

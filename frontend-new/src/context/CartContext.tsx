@@ -1,7 +1,7 @@
-import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, type ReactNode } from 'react';
 import toast from 'react-hot-toast';
 import axios from 'axios';
-import { CartItem, CartTotals } from '../types';
+import type { CartItem, CartTotals } from '../types';
 import { cartReducer, calculateTotals } from './cartUtils';
 import { useAuth } from './AuthContext';
 
@@ -135,7 +135,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         },
       };
       for (const item of state.items) {
-        await axios.delete(`/api/cart/${item._id}`, config);
+        await axios.delete(`/api/cart/${item.id}`, config);
       }
       dispatch({ type: 'CLEAR_CART' });
       toast.success('Cart cleared!');

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 
-import { User } from '../types';
+import type { User } from '../types';
 
   const UserCRUD: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -43,7 +43,7 @@ import { User } from '../types';
       </form>
       <ul>
         {users.map((u: User) => (
-          <li key={u.id} className="mb-2">{u.name} - {u.email}</li>
+          <li key={u._id} className="mb-2">{u.name} - {u.email}</li>
         ))}
       </ul>
     </div>

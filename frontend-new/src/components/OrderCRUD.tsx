@@ -17,7 +17,7 @@ const OrderCRUD: React.FC = () => {
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     const res = await axios.post('http://localhost:8080/api/orders', {
-      user_id: user?.id,
+      user_id: user?._id,
       total: parseFloat(total),
       status,
     });

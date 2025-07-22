@@ -5,7 +5,7 @@ import { useCart } from '../context/CartContext';
 import useFetch from '../hooks/useFetch.tsx';
 
 interface Product {
-  _id: string;
+  id: string;
   name: string;
   description: string;
   price: number;
@@ -31,7 +31,7 @@ const ProductDetail: React.FC = () => {
   }
 
   const handleAddToCart = () => {
-    addToCart(product);
+    addToCart(product.id, 1);
     toast.success(`${product.name} added to cart!`);
   };
 

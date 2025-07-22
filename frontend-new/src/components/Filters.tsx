@@ -3,14 +3,6 @@ import { motion } from 'framer-motion';
 import type { Product, FilterState } from '../types';
 import { FaSearch, FaTimes } from 'react-icons/fa';
 
-export interface FilterState {
-  category: string;
-  brand: string;
-  priceRange: [number, number];
-  inStock: boolean;
-  searchTerm: string;
-}
-
 interface FiltersProps {
   onFilterChange: (filters: FilterState) => void;
   products: Product[];
