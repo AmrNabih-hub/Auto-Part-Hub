@@ -79,8 +79,9 @@ RUN chmod +x docker-entrypoint.sh \
     && cp docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh \
     && chmod +x /usr/local/bin/docker-entrypoint.sh
 
-# Copy nginx and supervisor configurations (files should now be available from COPY . .)
-RUN cp nginx.conf /etc/nginx/nginx.conf \
+# Create necessary directories and copy configurations
+RUN mkdir -p /etc/supervisor/conf.d \
+    && cp nginx.conf /etc/nginx/nginx.conf \
     && cp supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Set proper permissions
