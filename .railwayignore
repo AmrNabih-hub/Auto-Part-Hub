@@ -1,4 +1,11 @@
+# Ignore all Docker-related files
 Dockerfile*
 docker-compose*
 .dockerignore
 build-script.sh
+*.dockerfile
+
+# Force Railway to use nixpacks.toml
+!nixpacks.toml
+!railway.toml
+!railway.json
