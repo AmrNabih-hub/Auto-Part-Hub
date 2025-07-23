@@ -1,0 +1,30 @@
+{
+  "name": "auto-parts-marketplace",
+  "description": "Modern car parts marketplace - NO DOCKER",
+  "keywords": ["nodejs", "php", "react", "no-docker"],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "heroku/php"
+    }
+  ],
+  "env": {
+    "DISABLE_DOCKER": {
+      "description": "This project does not use Docker",
+      "value": "true"
+    },
+    "NO_DOCKER": {
+      "description": "Explicitly disable Docker",
+      "value": "true"
+    },
+    "NIXPACKS_NO_DOCKER": {
+      "description": "Force nixpacks instead of Docker",
+      "value": "true"
+    }
+  },
+  "scripts": {
+    "postdeploy": "echo 'Deployed successfully without Docker!'"
+  }
+}

@@ -1,6 +1,7 @@
 [variables]
 NODE_VERSION = "20"
 PHP_VERSION = "8.2"
+DISABLE_DOCKER = "true"
 
 [phases.setup]
 nixPkgs = ["nodejs_20", "php82", "php82Packages.composer"]
@@ -18,6 +19,3 @@ cmds = [
 
 [start]
 cmd = "cd backend && php artisan serve --host=0.0.0.0 --port=$PORT"
-
-[staticAssets]
-"dist" = "/"

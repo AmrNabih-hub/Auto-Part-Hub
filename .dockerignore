@@ -1,6 +1,17 @@
-# This project does not use Docker
-# If you see this file, Docker should not be used for deployment
+# THIS PROJECT DOES NOT USE DOCKER
+# If you see this file being read, STOP the Docker build immediately
 # Use nixpacks or native deployment instead
 
+# Block everything from Docker
 *
+**/*
+.*
+.*/
+
+# Explicitly block common files
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Only allow this file to show the error message
 !.dockerignore

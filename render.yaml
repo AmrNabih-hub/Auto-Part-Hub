@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: auto-parts-marketplace
+    env: node
+    buildCommand: npm run build
+    startCommand: cd backend && php artisan serve --host=0.0.0.0 --port=$PORT
+    envVars:
+      - key: DISABLE_DOCKER
+        value: "true"
+      - key: NO_DOCKER
+        value: "true"
