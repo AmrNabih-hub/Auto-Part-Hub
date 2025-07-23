@@ -1,7 +1,6 @@
 [build]
 builder = "nixpacks"
 nixpacksConfigPath = "nixpacks.toml"
-buildCommand = "./build-script.sh"
 
 [deploy]
 startCommand = "cd backend && php artisan serve --host=0.0.0.0 --port=$PORT"

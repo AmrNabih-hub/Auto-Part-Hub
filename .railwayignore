@@ -1,0 +1,4 @@
+Dockerfile*
+docker-compose*
+.dockerignore
+build-script.sh
