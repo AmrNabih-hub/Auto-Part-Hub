@@ -6,7 +6,7 @@ echo "=============================="
 echo ""
 echo "🔧 Backend Sentry Test:"
 echo "Running Laravel tests to verify Sentry configuration..."
-docker compose exec app php artisan test --filter=SentryTest
+cd backend && php artisan test --filter=SentryTest
 
 echo ""
 echo "🌐 Frontend Sentry Test:"
