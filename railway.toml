@@ -1,5 +1,6 @@
 [build]
 builder = "nixpacks"
+nixpacksConfigPath = "nixpacks.toml"
 
 [deploy]
 startCommand = "cd backend && php artisan serve --host=0.0.0.0 --port=$PORT"
@@ -7,3 +8,8 @@ healthcheckPath = "/api/health"
 healthcheckTimeout = 300
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 3
+
+# Explicitly disable Docker
+[variables]
+DISABLE_DOCKER = "true"
+NO_DOCKER = "true"

@@ -10,7 +10,9 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "vitest --config vitest.config.ts",
-    "start": "serve -s dist"
+    "start": "serve -s dist",
+    "deploy:no-docker": "echo 'Building without Docker...' && npm run build",
+    "postinstall": "echo 'This project does not use Docker. Use nixpacks or native deployment.'"
   },
   "dependencies": {
     "@eslint/compat": "^1.3.1",

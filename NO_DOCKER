@@ -1,0 +1,15 @@
+This project does not use Docker.
+
+If you are seeing Docker-related errors during deployment:
+
+1. Use nixpacks builder (see nixpacks.toml)
+2. Use native Node.js + PHP deployment
+3. DO NOT auto-generate Dockerfiles
+4. Use the railway.toml configuration for Railway
+5. Use the vercel.json configuration for Vercel
+
+For Railway: Make sure builder is set to "nixpacks"
+For Vercel: Use the buildCommand in vercel.json
+For other platforms: Use native Node.js + PHP runtime
+
+Docker has been intentionally removed from this project.

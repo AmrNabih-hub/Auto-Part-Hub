@@ -1,0 +1,6 @@
+# This project does not use Docker
+# If you see this file, Docker should not be used for deployment
+# Use nixpacks or native deployment instead
+
+*
+!.dockerignore
