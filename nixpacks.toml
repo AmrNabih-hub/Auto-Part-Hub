@@ -1,28 +1,17 @@
-# Nixpacks configuration - NO DOCKER
 [variables]
 NODE_VERSION = "20"
-PHP_VERSION = "8.2"
-DISABLE_DOCKER = "true"
-NO_DOCKER = "true"
 
 [phases.setup]
 nixPkgs = ["nodejs_20", "php82", "php82Packages.composer"]
 
 [phases.install]
 cmds = [
-  "echo 'Installing dependencies with nixpacks (NO DOCKER)'",
-  "npm ci --prefer-offline --no-audit",
-  "cd backend && composer install --no-dev --optimize-autoloader --no-interaction"
+  "npm ci",
+  "cd backend && composer install --no-dev --optimize-autoloader"
 ]
 
 [phases.build]
-cmds = [
-  "echo 'Building with nixpacks (NO DOCKER)'",
-  "npm run build"
-]
+cmds = ["npm run build"]
 
 [start]
 cmd = "cd backend && php artisan serve --host=0.0.0.0 --port=$PORT"
-
-[staticAssets]
-"dist" = "/"
